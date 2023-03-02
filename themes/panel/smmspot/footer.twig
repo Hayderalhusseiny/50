@@ -1,0 +1,558 @@
+
+{{ footerCode }}
+{% if user['auth'] %}
+{% else %}
+<div class="modal fade" id="login" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+   <div class="modal-dialog modal-xl">
+		 <div class="modal-content">
+		 
+			 <div class="container">
+				 <div class="row align-self-center">
+					 <div class="col-lg-10 offset-lg-1">
+
+						<div class="login-box">
+							<div class="row">
+								<div class="col-lg-6">
+									<div class="login-form">
+										<div class="hlb-header mb-5">
+											<div class="row text-center">
+											    <button class="btn ahbtn bs-2" data-bs-dismiss="modal" aria-label="Close">
+												<i class="fas fa-times"></i>
+											</button>
+												<div class="col-auto mx-auto login-logo d-flex align-items-center">
+													{% if site['logo'] %}
+													  <img src="{{ site['logo'] }}" alt="{{ site["site_name"] }}" height="80" title="{{ site["site_name"] }}">
+													{% else %}
+                                                    {{ site["site_name"] }}
+													{% endif %} <span>{{ lang['smmspot.login.welcome.text'] }}</span>
+												</div>
+											</div>
+										</div>
+										<form method="post" action="/#login">
+                                            {% if errorText %}
+											<div class="alert alert-dismissible alert-danger {% if site['rtl'] %} rtl-alert {% endif %}">
+											  <button type="button" class="close" data-dismiss="alert">×</button>
+											  {{ errorText }}
+											</div>
+										  {% endif %}
+
+										  {% if successText %}
+											<div class="alert alert-success alert-dismissible" role="alert">
+											  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+											  {{ successText }}
+											</div>
+										  {% endif %}
+											<div class="form-group">
+												<div class="fga mb-4">
+												<label class="fla">{{ lang['smmspot.login.username.text'] }}</label>
+													<div class="fg">
+														<div class="fg-icon">
+															<i class="fal fa-user"></i>
+														</div>
+														<input type="text" class="fg-control" id="username" name="username">
+													</div>
+												</div>
+											</div>
+
+											<div class="form-group">
+												<div class="fga mb-4">
+												<label class="fla">{{ lang['smmspot.login.password.text'] }}</label>
+													<div class="fg">
+														<div class="fg-icon">
+															<i class="fal fa-unlock-alt"></i>
+														</div>
+														<input type="password" class="fg-control" id="password" name="password">
+													</div>
+												</div>
+											</div>
+
+										   <div class="row mt-2">
+											  <div class="col-6 py-2 mb-2">
+												 <div class="form-check">
+													<input type="checkbox" class="form-check-input" name="remember" value="1" id="remember">
+													<label class="form-check-label" for="remember">{{ lang['smmspot.login.remember.text'] }}</label>                     
+													<span class="checkpoint"></span>
+												 </div>
+											  </div>
+											  <div class="col-6 py-2 text-right">
+												 <a href="/resetpassword" class="frgpass">{{ lang['smmspot.login.resetpassword.text'] }}</a>
+											  </div>
+										   </div>											
+                                           {% if captcha %}
+                                            <div class="row mt-2">
+                                                <div class="g-recaptcha" data-sitekey="{{ captchaKey }}"></div>
+                                            </div>
+                                            {% endif %}
+
+											<button class="btn btn-primary btn-xl btn-block mt-4">{{ lang['signin.title'] }}</button>
+										</form>
+										<div class="log-bottom mt-5">
+											<span>{{ lang['smmspot.login.dont.account.text'] }} <a href="/signup">{{ lang['signup.title'] }}.</a></span>
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-6">
+									<div class="login-left">
+										<div class="p-1">
+											<img src="/assets/smmspot/assets/images/login-card.png" class="img-fluid" />
+											<div class="p-4 text-center">
+												<h1>{{ lang['smmspot.login.box.next.to.the.forum.title'] }} </h1>
+												<p>{{ lang['smmspot.login.box.next.to.the.forum.text'] }}</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+					 </div>
+				 </div>
+			 </div>
+
+      </div>
+   </div>
+</div>
+<!-- ./login -->
+{% endif %}
+
+{% if user['auth'] %}
+         <div class="app-rightbar sticky-header">
+              <div class="app-rightbar-header">
+                  <div class="pt-5 pb-4 px-4">
+                      <div class="row align-items-center">
+                          <div class="col">
+                              <h3 class="rm-title">{{ lang['smmspot.footer.menu.title'] }}</h3>
+                          </div>
+                          <div class="col-auto">
+                              <button class="btn ahbtn bs-3" onclick="javascript:rightMenuToggle();">
+                                  <i class="fas fa-times"></i>
+                              </button>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              
+              <div class="app-rb-content">
+                  <div class="app-rb-body">
+                  
+                  <div class="app-rh-nav mt-4 pt-1 mb-4">
+                      <ul class="nav nav-tabs nav-custom" role="tablist">
+                          <li class="nav-item">
+                              <button class="nav-link active" aria-current="page" id="nav-newsR-tab" data-bs-toggle="tab" data-bs-target="#nav-newsR" type="button" role="tab" aria-controls="nav-newsR" aria-selected="false">{{ lang['smmspot.footer.menu.notice.title'] }}</button>
+                          </li>
+                          <li class="nav-item">
+                              <button class="nav-link" id="nav-sssR-tab" data-bs-toggle="tab" data-bs-target="#nav-sssR" type="button" role="tab" aria-controls="nav-sssR" aria-selected="false">{{ lang['smmspot.footer.menu.faq.title'] }} </button>
+                          </li>
+                      </ul>
+                  </div>
+                  
+                      <div class="tab-content" id="nav-tabContent">
+                      
+                      
+                          <div class="tab-pane fade show active" id="nav-newsR" role="tabpanel" aria-labelledby="nav-newsR-tab">
+                          {% for new in newsList %}
+                              <div class="card card-announce">
+                                  <div class="can-content">
+                                      <div class="can-top">
+                                          <div class="can-cat">
+                                              <img width="17" class="mr-1" src="assets/img/icons/{{ new['news_icon'] }}.png">
+                                              <span>{{ new['news_title'] }}</span>
+                                          </div>
+                                          <div class="can-time">
+                                              <i class="far fa-clock icon"></i>
+                                              <span>{{ new['news_date'] }}</span>
+                                          </div>
+                                      </div>
+                                      <div class="can-body">
+                                          <div class="can-text">
+                                              {{ new['news_content'] }}
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div><!-- ./card-announce -->
+                          {% endfor %}
+  
+                          </div><!-- tab-content -->				
+                          
+                          <div class="tab-pane fade" id="nav-sssR" role="tabpanel" aria-labelledby="nav-sssR-tab">
+                              <div class="faq-ss-tabs">
+                                   <div class="home-ss-tab">
+                                      <div class="ss-tab-head">
+                                         <div class="row">
+                                            <div class="col">
+                                               {{ lang['smmspot.footer.menu.faq1.title'] }}
+                                            </div>
+                                            <div class="col-auto align-self-center right-p">
+                                               <i class="fas fa-plus"></i>
+                                               <i class="fas fa-minus"></i>
+                                            </div>
+                                         </div>
+                                      </div>
+                                      <div class="ss-tab-content">
+                                         {{ lang['smmspot.footer.menu.faq1.text'] }}
+                                      </div>
+                                   </div>
+                                   <!-- home-ss-tab end -->
+                                   
+                                   <div class="home-ss-tab">
+                                      <div class="ss-tab-head">
+                                         <div class="row">
+                                            <div class="col">
+                                                {{ lang['smmspot.footer.menu.faq2.title'] }}
+                                            </div>
+                                            <div class="col-auto align-self-center right-p">
+                                               <i class="fas fa-plus"></i>
+                                               <i class="fas fa-minus"></i>
+                                            </div>
+                                         </div>
+                                      </div>
+                                      <div class="ss-tab-content">
+                                         {{ lang['smmspot.footer.menu.faq2.text'] }}
+                                      </div>
+                                   </div>
+                                   <!-- home-ss-tab end -->
+                                   
+                                   <div class="home-ss-tab">
+                                      <div class="ss-tab-head">
+                                         <div class="row">
+                                            <div class="col">
+                                               {{ lang['smmspot.footer.menu.faq3.title'] }}
+                                            </div>
+                                            <div class="col-auto align-self-center right-p">
+                                               <i class="fas fa-plus"></i>
+                                               <i class="fas fa-minus"></i>
+                                            </div>
+                                         </div>
+                                      </div>
+                                      <div class="ss-tab-content">
+                                         {{ lang['smmspot.footer.menu.faq3.text'] }}
+                                      </div>
+                                   </div>
+                                   <!-- home-ss-tab end -->
+                                   
+                              </div>
+                          </div><!-- tab 3 -->
+                      </div>
+                  
+                  
+                  
+  
+                  </div><!-- app-rb-body -->
+              </div>
+          </div><!-- rightbar-end -->
+  
+  
+  
+  
+  
+      </div>
+  <div class="bs-toast">
+      <div class="bs-toast-content">
+          <div class="toast-text">{{ lang['smmspot.footer.copy.text'] }}</div>
+          <button class="toast-times" onclick="removeToast();"><i class="fas fa-times"></i></button>
+      </div>
+  </div>
+  
+  <div class="app-navbar">
+      <div class="row">
+          <div class="col text-center align-self-center">
+              <a href="/">
+                  <i class="fal fa-home navbar-icon"></i>
+              </a>
+          </div>
+          <div class="col text-center align-self-center">
+              <a href="/orders" class="active">
+                  <i class="fal fa-chart-pie-alt navbar-icon"></i>
+              </a>
+          </div>
+          <div class="col text-center align-self-center">
+              <a href="/">
+                  <img src="/assets/smmspot/assets/images/nav-btn.svg" class="navbar-mid-icon" alt="">
+              </a>
+          </div>
+          <div class="col text-center align-self-center">
+              <a href="/tickets">
+                  <i class="fal fa-comment-lines navbar-icon"></i>
+              </a>
+          </div>
+          <div class="col text-center align-self-center">
+              <a href="/account">
+                  <i class="fal fa-cog navbar-icon"></i>
+              </a>
+          </div>
+      </div>
+  </div>
+    
+  {% else %}  
+      <footer class="smmspot-na-footer">
+          <div class="smmspot-ftop">
+              <div class="container">
+                  <div class="row">
+                      <div class="col-md-auto text-center text-md-start mb-4 mb-md-0">
+                          <a href="/">
+                          {% if site["logo"] %}
+                            <img src="{{ site['logo'] }}" alt="{{ site["site_name"] }}" height="80" title="{{ site["site_name"] }}">
+                          {% else %}
+                          {{ site["site_name"] }}
+                          {% endif %}
+                          </a>
+                      </div>
+                      <div class="col-md mt-4 mt-md-0 text-lg-end text-md-end text-center">
+                          <ul class="smmspot-fmenu">
+                            <li><a href="/">{{ lang['smmspot.footer.sub.menu.1'] }}</a></li>
+                            <li><a href="/services">{{ lang['smmspot.footer.sub.menu.2'] }}</a></li>
+                            <li><a href="/api">{{ lang['smmspot.footer.sub.menu.3'] }}</a></li>
+                            <li><a href="/blog">{{ lang['smmspot.footer.sub.menu.4'] }}</a></li>
+                          </ul>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="smmspot-fbot text-center">
+              <div class="container">
+                  <div class="row">
+                      <div class="smmspot-fb-title mb-5">
+                          <h3>{{ lang['smmspot.footer.sub.title1'] }}<br /> {{ lang['smmspot.footer.sub.title2'] }}</h3>
+                      </div>
+                      
+                      <div class="smmspot-fb-btn d-flex justify-content-center mb-5">
+                         <div class="row">
+                             <div class="col-md-auto col-12 mb-4 mb-lg-0">
+                               <a href="/services" class="btn btn-secondary btn-border btn-block">
+                                      {{ lang['smmspot.footer.sub.button1'] }}
+                                  </a>
+                             </div>
+                             <div class="col-md-auto col-12">
+                               <a href="/signup" class="btn btn-primary btn-border btn-block">
+                                      {{ lang['smmspot.footer.sub.button2'] }}
+                                  </a>
+                             </div>
+                           </div>						
+                      </div>
+                      
+                      <div class="smmspot-fb-copy">
+                          {{ lang['smmspot.footer.text'] }}
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </footer><!-- ./footer -->
+  
+  {% endif %}
+
+
+      
+      <script src="/assets/smmspot/assets/knd/js/selectbox.js"></script>
+    
+                                  <script>
+                                    function HideEverything(){
+                                      $('.ordernumbers').hide();
+                                      $('.transactionid').hide();
+                                    }
+                                    $(document).ready(function(){
+                                    $('.subject').change(function(){
+                                          HideEverything();		
+                                          if($(this).val()=='Sipariş'){
+                                              $('.ordernumbers').show();
+                                              $('#requestRefill').prop('checked',true);
+                                              $('#paymentPaypal').prop('checked',false);
+                                          }  		
+                                          if($(this).val()=='Ödeme'){
+                                              $('.transactionid').show();
+                                              $('#paymentPaypal').prop('checked',true);
+                                              $('#requestRefill').prop('checked',false);
+                                          }
+                                      });
+                                      $('#submit').click(function(e){
+                                          e.preventDefault();
+                                          console.log('working');
+                                          $TheSubject = $('.subject:checked').val();
+                                          $TheRequest = $('.second-options:checked').val();
+                                          if ($TheSubject == 'Sipariş'){
+                                              $final = 'Sipariş No: ' + $('#ordernumbers').val() + '\n\n' + $('#message').val();
+                                          }else if($TheSubject == 'Ödeme'){
+                                              $final = 'Ödeme No:' +  $('#transactionid').val() +'\n\n' + $('#message').val();
+                                              
+                                          }else{
+                                              $final = $('#message').val();
+                                          }
+                                          $('#alldata').val($final);
+                                          $('.subject:checked').val($TheSubject);
+                                          //submit
+                                          document.getElementById("submit").submit();
+                                      });
+                                    });
+                                  </script>
+    
+  
+  
+   <script>
+      $(window).bind('load', function()
+      {
+          $("div#order_link").html('' +
+              '<div class="fga mb-4">' +
+              '<label class="fla" for="orderLink">Yeni Sipariş</label>' +
+              '<div class="fg">' +
+              '<div class="fg-icon"><i class="far fa-link"></i></div>' +
+              '<input class="fg-control" name="OrderForm[link]" value="" type="text" id="field-orderform-fields-link">' +
+              '</div>' +
+              '</div>');
+  
+          $("div#order_quantity").html('' +
+              '<div class="fga mb-4">' +
+              '<label class="fla" for="orderQuantitiy">Miktar</label>' +
+              '<div class="fg">' +
+              '<div class="fg-icon"><i class="far fa-sort-numeric-up-alt"></i></div>' +
+              '<input class="fg-control" name="OrderForm[quantity]" value="" type="number" id="field-orderform-fields-quantity">' +
+              '</div>' +
+              '</div>');
+     
+          $("div#order_phone").html('' +
+              '<div class="fga mb-4">' +
+              '<label class="fla" for="orderQuantitiy">Telefon</label>' +
+              '<div class="fg">' +
+              '<div class="fg-icon"><i class="far fa-mobile-android-alt"></i></div>' +
+              '<input class="fg-control" name="AddFoundsForm[fields][phone]" value="" type="text" id="field-phone">' +
+              '</div>' +
+              '</div>');
+  
+      });
+  
+  
+  </script>  
+  
+  <section class="modal-hide animate__animated">
+     
+        <div class="row justify-content-center mt-5">
+            <div class="col-12 col-sm-8">
+                <div class="smm-spot-modal px-5 py-5">
+                    <div class="text-end modal-icon-bg">
+                        <img class="img-fluid" src="{{ site['url'] }}/assets/img/smmspot/modal-icon.png" alt="">
+                    </div>
+                    <div class="text-end modal-close-button animate__animated animate__repeat-2">
+                        <img onclick="smmCloseModal()" class="img-fluid" src="{{ site['url'] }}/assets/img/smmspot/close-button.svg" alt="">
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col-12 col-md-11">
+                            <div>
+                                <h3 class="text-white modal-title" id="modal-title">
+                                    Duyuru
+                                </h3>
+                            </div>
+                            <div class="modal-title-line">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-4 justify-content-center">
+                        <div class="col-12 col-md-11">
+                            <div class="text-white modal-text">
+                                <p id="modal-content"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+
+    </section>
+  </body>
+  </html>
+  
+    
+  
+  {% for script in scriptList %}
+  <script type="text/javascript" src="{{ script }}"></script>
+{% endfor %}
+    
+  
+  <script>
+  var hash = location.hash;
+  var loginModal = new bootstrap.Modal(document.getElementById('login'));
+  
+  if (loginModal) {
+    document.getElementById('login').addEventListener('hide.bs.modal', (event) => {
+      setTimeout(function(){
+        history.replaceState("", document.title, window.location.pathname);
+      }, 1);
+    });
+  
+    document.getElementById('login').addEventListener('show.bs.modal', event => {
+      window.location.hash = 'login';
+    })
+  
+  }
+  
+  if(hash === '#login') {
+    loginModal.show();
+  }
+    
+  </script>
+  
+  
+  <script>
+  
+  function getUrlParameter(sParam) {
+      var sPageURL = decodeURIComponent(window.location.search.substring(1));
+      var sURLVariables = sPageURL.split('&');
+      var sParameterName;
+      var i;
+      for (i = 0; i < sURLVariables.length; i++) {
+          sParameterName = sURLVariables[i].split('=');
+          if (sParameterName[0] === sParam) {
+              return sParameterName[1] === undefined ? true : sParameterName[1];
+          }
+      }
+  }
+  
+    
+  
+  var select_service_id = getUrlParameter("select_service_id");
+  if (select_service_id) {
+      var selectSerCatID = window.modules.siteOrder.services[select_service_id].cid;
+        let orderCat = document.getElementById('orderform-category');
+        let orderSer = document.getElementById('orderform-service');
+      
+      $(function () {
+          orderCat.querySelector('[selected]').removeAttribute('selected');
+          console.log(selectSerCatID);
+          orderCat.querySelector('[value="'+ selectSerCatID +'"]').setAttribute('selected', 'selected');
+          orderCat.value = selectSerCatID;
+  
+          var event = document.createEvent('HTMLEvents');
+          event.initEvent('change', true, false);
+          orderCat.dispatchEvent(event);
+  
+          setTimeout(() => {
+              let controlSel = orderSer.querySelector('[selected]')
+              if (controlSel) {
+                  controlSel.removeAttribute('selected');
+              }
+              console.log(select_service_id);
+              orderSer.querySelector('[value="'+ select_service_id +'"]').setAttribute('selected', 'selected');
+              orderSer.value = select_service_id;
+              orderSer.dispatchEvent(event);
+  
+          }, 500);
+      });
+  }
+  
+  function popupShow(item, index){
+      $('#modal-title').html(item['baslik']);
+      $('#modal-content').html(item['icerik']);
+        $(".modal-hide").delay(2000).fadeIn()
+        $(".modal-hide").addClass("animate__fadeInUp")
+        $(".modal-close-button").fadeIn()
+        $(".modal-close-button").addClass("animate__flip")
+  }
+$.post( "/popup", function( data ) {
+  data['field'].forEach(popupShow);
+    
+    
+});
+  function smmCloseModal() {
+            $(".modal-hide").addClass("animate__fadeOutDown")
+            $(".modal-hide").fadeOut()
+        }
+        
+  </script>

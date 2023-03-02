@@ -1,0 +1,279 @@
+{% include 'header.twig' %}
+
+<main class="app-main">
+    <div class="page-content">
+        <div class="container-fluid">
+		
+			<div class="hp-bbox mt-5 mb-5">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="hpbb-body">
+                            <h2 class="hp-title">{{ lang['smmspot.addfunds.title'] }}</h2>
+                            <p class="hpbb-text">
+								{{ lang['smmspot.addfunds.text'] }}
+							</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+			 {% if success %}
+										  <div class="alert alert-dismissible alert-success">
+											  {{ successText }}
+										  </div>
+										{% endif %}
+										
+										{% if error %}
+										  <div class="alert alert-dismissible alert-danger">
+											{{ errorText }}
+										  </div>
+										{% endif %}
+            <div class="row mt-2">
+				{% if paymentsList %}
+                <div class="col-lg-6">
+                    <div class="card mb-5">
+                        <div class="py-4 px-lg-3 px-4">
+						
+									<div class="t-head th-3">
+										<div class="d-flex align-items-center">
+											<div class="col-lg-2">
+												<div class="t-icon">
+													<i class="fal fa-credit-card-front"></i>
+												</div>
+											</div>
+											<div class="col-lg-10 col-12">
+												<h2>{{ lang['smmspot.addfunds.payment.method.title'] }}</h2>
+												<p>{{ lang['smmspot.addfunds.payment.method.text'] }}</p>
+											</div>
+										</div>
+									</div>
+									
+                                    <form  method="post" action="addfunds" >
+										
+										
+                                        <div class="fga form-group mb-4">
+                                            <label class="fla" for="orderCategory">{{ lang['addfunds.method'] }}</label>
+                                            <div class="fg">
+                                                <div class="fg-icon"><i class="far fa-list"></i></div>
+                                                <select id="method" name="payment_type" class="form-control fg-control" data-toggle="ssp-selectbox" data-class="fg-control">
+                                                    {% for payment in paymentsList %}
+													  <option value="{{ payment['id'] }}" {% if data['payment_type'] == payment['id'] %} selected {% endif %} >{{ payment['method_name'] }}</option>
+													{% endfor %}
+                                                </select>
+                                            </div>
+                                            <small id="small_lemon" class="from-text text-muted" style="display: block;"><i class="far fa-donate"></i> Please, Make the payment with the same email inside the site</small>
+                                        </div>
+                                        
+                                           <div class="fga mb-4 custom-payment-content"  style="display:none">
+                                       <label class="fla" for="amount">Instructions:</label>
+                                       <br>
+                                       <p>
+                                           
+                                            {% for payment in paymentsList %}
+													  {% if payment['id'] == 21 %} 
+													    {{ payment['content'] }}
+													  {% endif %}
+													{% endfor %}
+                                           
+                                       </p>
+                                        </div>
+                                        
+                                        
+                                        <div class="fga mb-4 normal-payment">
+                                            <label class="fla" for="amount">{{ lang['smmspot.addfunds.payment.telephone.title'] }}</label>
+                                            <div class="fg">
+                                                <div class="fg-icon"><i class="far fa-phone"></i></div>
+                                                <input type="number" class="fg-control">
+                                            </div>
+                                        </div>
+
+                                        <div class="fga mb-4 normal-payment" >
+                                            <label class="fla" for="amount">{{ lang['addfunds.amount'] }}</label>
+                                            <div class="fg">
+                                                <div class="fg-icon"><i class="far fa-coin"></i></div>
+                                                <input  class="fg-control" name="payment_amount" id="amount" value="{{ data['payment_amount'] }}">
+                                            </div>
+                                        </div>
+        
+                                        <div class="row">
+                                            <div class="col-md-6 col-12 mb-4 mb-mb-0 normal-payment">
+                                                <button type="submit" class="btn btn-primary btn-block">
+                                                {{ lang['smmspot.addfunds.payment.submit.button'] }}
+                                                </button>
+                                            </div>
+                                            <div class="col-md-6 col-12 mb-4 mb-mb-0">
+                                                <a href="/tickets" class="btn btn-dark btn-block">
+                                                    {{ lang['smmspot.addfunds.tickets.button'] }} 
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </form>
+                        </div>
+                    </div><!-- card -->
+                </div><!-- col -->
+				{% endif %}
+				
+	            {% if bankPayment == 2 %}
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="py-4 px-lg-3 px-4">
+						
+									<div class="t-head th-3">
+										<div class="d-flex align-items-center">
+											<div class="col-lg-2">
+												<div class="t-icon">
+													<i class="fas fa-wallet"></i>
+												</div>
+											</div>
+											<div class="col-lg-10 col-12">
+												<h2>{{ lang['smmspot.addfunds.payment.notifaction.title'] }}</h2>
+												<p>{{ lang['smmspot.addfunds.payment.notifaction.text'] }}</p>
+											</div>
+										</div>
+									</div>
+                       
+                       
+                                    <form  method="post" action="addfunds" enctype="multipart/form-data">
+										 
+										
+                                        <div class="fga form-group mb-4">
+                                            <label class="fla" style="font-size: 14px;" for="orderCategory">{{ lang['addfunds.bank'] }}</label>
+                                            <div class="fg">
+                                                <div class="fg-icon"><i class="far fa-list"></i></div>
+                                                <select id="bank_account"  class="form-control fg-control" name="payment_bank" data-toggle="ssp-selectbox" data-class="fg-control">
+                                                    {% for bank in bankList %}
+																			<option value="{{ bank['id'] }}" {% if data['payment_bank'] == payment['id'] %} selected {% endif %} >{{ bank['bank_name'] }}</option>
+																		  {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="fga mb-4">
+                                            <label class="fla" for="namesss">{{ lang['addfunds.bank.sender'] }}</label>
+                                            <div class="fg">
+                                                <div class="fg-icon"><i class="fas fa-user-circle"></i></div>
+                                                <input type="text" class="fg-control" name="payment_gonderen" value="{{ data['payment_gonderen'] }}"required id="namesss">
+                                            </div>
+                                        </div>
+
+                                        <div class="fga mb-4">
+                                            <label class="fla" for="amount">{{ lang['addfunds.bank.amount'] }}</label>
+                                            <div class="fg">
+                                                <div class="fg-icon"><i class="far fa-coin"></i></div>
+                                                <input type="number" class="fg-control" name="payment_bank_amount"  value="{{ data['payment_bank_amount'] }}" required id="amount">
+                                            </div>
+                                        </div>
+                                        
+                                        
+                                         <div class="fga mb-4">
+                                            <label class="fla" for="payment_bank_image">{{ lang['addfunds.bank.payment_bank_image'] }}</label>
+                                            <div class="fg">
+                                                <div class="fg-icon"><i class="far fa-image"></i></div>
+                                                <input type="file" class="fg-control" name="payment_bank_image"  required id="payment_bank_image">
+                                            </div>
+                                        </div>
+        
+                                        <div class="row">
+                                            <div class="col-md-12 col-12 mb-4 mb-mb-0">
+                                                <button type="submit" class="btn btn-primary btn-block">
+                                                   {{ lang['addfunds.bank.button'] }}
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                
+                
+                
+                 {% if bankPayment == 2 %}
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="py-4 px-lg-3 px-4">
+						
+									<div class="t-head th-3">
+										<div class="d-flex align-items-center">
+											<div class="col-lg-2">
+												<div class="t-icon">
+													<i class="fal fa-receipt"></i>
+												</div>
+											</div>
+											<div class="col-lg-10 col-12">
+												<h2>{{ lang['smmspot.addfunds.bank.accounts.title'] }}</h2>
+												<p>{{ lang['smmspot.addfunds.bank.accounts.text'] }}</p>
+											</div>
+										</div>
+									</div>
+                       
+                                    <div class="old-payments">
+										{% for bank in bankList %}
+										<div class="card mb-3">
+											<div class="py-4 px-lg-3 px-4">
+												<div class="row">
+													<div class="col-lg-2 col-6">
+														<h4 class="op-title">{{ lang['smmspot.addfunds.bank.accounts.recipient.name'] }}</h4>
+														<div class="op-id">{{ bank["bank_alici"] }}</div>
+													</div>
+													<div class="col-lg-2 col-6">
+														<h4 class="op-title">
+															<span>{{ lang['smmspot.addfunds.bank.accounts.bank.name'] }}</span>
+														</h4>
+														<div class="op-date">{{ bank['bank_name'] }}</div>
+													</div>
+													<div class="col-lg-2 col-6">
+														<h4 class="op-title">
+															<span>{{ lang['smmspot.addfunds.bank.accounts.account.number'] }}</span>
+														</h4>
+														<div class="op-date">{{ bank['bank_hesap'] }}</div>
+													</div>
+													<div class="col-lg-2 col-6">
+														<h4 class="op-title">
+															<span>{{ lang['smmspot.addfunds.bank.accounts.branch.code'] }} </span>
+														</h4>
+														<div class="op-date">{{ bank['bank_sube'] }}</div>
+													</div>
+													<div class="col-lg-4 col-12">
+													    <h4 class="op-title">
+															<span>{{ lang['smmspot.addfunds.bank.accounts.iban'] }} </span>
+														</h4>
+														<div class="op-status">
+															<span data-toggle="tooltip" data-placement="left">{{ bank['bank_iban'] }}</span>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										{% endfor %}
+                                    </div>
+
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                
+            </div>
+		
+        </div>
+    </div>
+</main>
+
+	
+{% include 'footer.twig' %}
+
+<script>
+    
+   $("#method").on('change', function() {
+       
+       if($(this).val() == 21){
+              $(".normal-payment").hide();
+               $(".custom-payment-content").show();
+       }
+       else{
+            $(".custom-payment-content").hide();
+           $(".normal-payment").show();
+       }
+       
+   });
+</script>

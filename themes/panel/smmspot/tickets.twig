@@ -1,0 +1,147 @@
+{% include 'header.twig' %}
+<main class="app-main">
+    <div class="page-content">
+        <div class="container-fluid">
+		
+			<div class="hp-bbox mt-5 mb-5">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="hpbb-body">
+                            <h2 class="hp-title">{{ lang['smmspot.tickets.title'] }}</h2>
+                            <p class="hpbb-text">
+								{{ lang['smmspot.tickets.text'] }}
+							</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-lg-6">
+                    <div class="card mb-5">
+                        <div class="py-4 px-lg-3 px-4">
+						
+									<div class="t-head th-3">
+										<div class="d-flex align-items-center">
+											<div class="col-lg-2">
+												<div class="t-icon">
+													<i class="fal fa-comment-medical"></i>
+												</div>
+											</div>
+											<div class="col-lg-10 col-12">
+												<h2>{{ lang['smmspot.tickets.create.ticket.title'] }}</h2>
+												<p>{{ lang['smmspot.tickets.create.ticket.text'] }} </p>
+											</div>
+										</div>
+									</div>
+									
+							<form method="post" action="tickets">
+							    {% if error %}
+                                <div class="alert alert-dismissible alert-danger ">
+                                  {{ errorText }}
+                                </div>
+                              {% elseif success %}
+                                <div class="alert alert-dismissible alert-success">
+                                  {{ successText }}
+                                </div>
+                              {% endif %}
+								    <div class="fga mb-4">
+                                        <label class="fla" for="subject">{{ lang["tickets.subject"] }}</label>
+                                        <div class="fg">
+                                            <div class="fg-icon"><i class="far fa-list"></i></div>
+                                            <select id="subject" name="subject" class="form-control fg-control" data-class="form-control fg-control">
+                                                                                             {% for subjects in orders %}
+                   <option value"{{ subjects['subject'] }}">{{ subjects['subject'] }}</option>
+                  {% endfor %}
+                                                                                          </select>
+                                        </div>
+                                    </div>
+
+									<div class="fga mt-3">
+										<label for="message">{{ lang['tickets.message'] }}: </label>
+										<div class="fg mt-2">
+										  <textarea class="fg-control" rows="7" id="message" name="message" style="min-height: 150px">{{ data['message'] }}</textarea>
+										</div>
+									</div>
+									<button type="submit" class="btn btn-primary btn-lg btn-block mt-4 mb-3">{{ lang['tickets.button'] }}</button>
+							</form>
+							
+
+								  
+                        </div>
+                    </div><!-- card -->
+                </div><!-- col -->
+                
+                
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="py-4 px-lg-3 px-4">
+						
+									<div class="t-head th-3">
+										<div class="d-flex align-items-center">
+											<div class="col-lg-2">
+												<div class="t-icon">
+													<i class="fal fa-ticket-alt"></i>
+												</div>
+											</div>
+											<div class="col-lg-10 col-12">
+												<h2>{{ lang['smmspot.tickets.my.support.reguest.title'] }}</h2>
+												<p>{{ lang['smmspot.tickets.my.support.reguest.text'] }} </p>
+											</div>
+										</div>
+									</div>
+									{% if ticketList %}
+                            <div class="old-tickets">
+								{% for ticket in ticketList %}	
+                              		<div class="old-ticket">
+									<a href="tickets/{{ ticket['ticket_id'] }}">
+										<div class="card mb-3">
+											<div class="py-4 px-lg-3 px-4">
+												<div class="row">
+													<div class="col-lg-3 col-6">
+														<h4 class="op-title">{{ lang['smmspot.tickets.reguest.number.title'] }}</h4>
+														{% if ticket['status'] == lang['tickets.status.answered'] %}
+															<div id="ticket-id" class="op-id answered">{{ ticket['ticket_id'] }}</div>
+														{% endif %}               
+														{% if ticket['status'] == lang['tickets.status.pending'] %}
+															<div id="ticket-id" class="op-id pending">{{ ticket['ticket_id'] }}</div>
+														{% endif %}
+														{% if ticket['status'] == lang['tickets.status.closed'] %}
+															<div id="ticket-id" class="op-id">{{ ticket['ticket_id'] }}</div>
+														{% endif %}
+													</div>
+													<div class="col-lg-5 col-6">
+														<h4 class="op-title">
+															<span>{{ ticket['subject'] }}</span>
+														</h4>
+														<div class="op-date">{{ ticket['lastupdate_time'] }}</div>
+													</div>
+													<div class="col-lg-4 col-12 text-center">
+														{% if ticket['status'] == lang['tickets.status.answered'] %}
+															<div class="op-status op-answered">{{ ticket['status'] }}</div>
+														{% endif %}               
+														{% if ticket['status'] == lang['tickets.status.pending'] %}
+															<div class="op-status op-waiting">{{ ticket['status'] }}</div>
+														{% endif %}
+														{% if ticket['status'] == lang['tickets.status.closed'] %}
+															<div class="op-status op-closed">{{ ticket['status'] }}</div>
+														{% endif %}
+													</div>
+												</div>
+											</div>
+										</div>
+									</a>
+                                </div>
+							   {% endfor %}		
+                           </div>
+						  {% endif %}
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</main>
+{% include 'footer.twig' %}

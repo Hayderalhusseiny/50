@@ -1,0 +1,129 @@
+{% include 'header.twig' %}
+<style>.support-chat .old-tickets .old-ticket {padding-left:0}</style>
+<main class="app-main">
+   <div class="page-content">
+      <div class="container-fluid">
+         <div class="row mt-2">
+            <div class="col-lg-12">
+               <div class="card mb-5">
+                  <div class="px-lg-1 py-lg-0 py-3 px-4">
+                     <div class="support-chat">
+                         {% if ticketList %}
+                        <div class="schat-left">
+                           <div class="schat-left-header">
+                              <h5 class="schlh-title pb-2">{{ lang['smmspot.viewticket.service.hours.title'] }}   </h5>
+                              <h3 class="schlh-title pb-2">{{ lang['smmspot.viewticket.service.hours.text'] }}</h3>
+							  <p>{{ lang['smmspot.viewticket.service.hours.text2'] }}</p>
+                           </div>
+                           <div class="schat-left-body">
+                              <div class="old-tickets">
+                              </div>
+                           </div>
+                        </div>
+                        {% endif %}
+                        <!-- schat-left -->
+                        <div class="schat-body">
+                           <div class="schat-body-header">
+                              <div class="row align-items-center">
+                                 <div class="col-auto d-lg-none">
+                                    <a href="/tickets" class="btn btn-dark btn-square">
+                                    <i class="fas fa-chevron-left"></i>
+                                    </a>
+                                 </div>
+                                 <div class="col">
+                                    <h2 class="schat-title"><i class="fas fa-bookmark"></i> {{ messageList['ticket']['subject'] }}</h2>
+									<h2 class="schat-title" id="ticket-id" style="display: none"></h2>
+                                 </div>
+                              </div>
+                           </div>
+                           <!-- schat-body-header -->
+                           <div class="schat-chat-body">
+                              <div class="schat-body-content">
+							  
+                              {% if messageList %}
+                              {% for message in messageList %}
+                                {% if message["support"] == 1 %}
+                                 <div class="ticket-message-block ticket-message-right">
+                                    <div class="ticket-msg-container">
+                                       <div class="ticket-msg">{{ message["message"] }}</div>
+                                       <div class="date-time">{{ user["username"] }} {{ message["time"] }}</div>
+                                    </div>
+                                 </div><br>
+                                 <!-- msg-end -->
+                                 {% elseif message["subject"] %}
+                                 {% else %}
+                                 <div class="ticket-message-block ticket-message-left">
+                                    <div class="ticket-msg-container">
+                                       <div class="ticket-msg">{{ message['message'] }}</div>
+                                       <div class="date-time">{{ lang['smmspot.viewticket.support.team'] }} {{ message["time"] }}</div>
+                                    </div>
+                                 </div><br>
+                                 <!-- msg-end -->
+								{% endif %}
+							  {% endfor %}
+							{% endif %}
+                              </div>
+                           </div>
+                           {% if messageList['ticket']['canmessage'] == 2 %}
+                           <div class="schat-input">
+							  <form method="post" action="tickets/{{ messageList['ticket']['ticket_id'] }}">
+								{% if error %}
+								  <div class="alert alert-dismissible alert-danger">
+									<button type="button" class="close" data-dismiss="alert">×</button>
+									  {{ errorText }}
+								  </div>
+								{% endif %}
+                                {% if success %}
+								  <div class="alert alert-dismissible alert-success">
+									<button type="button" class="close" data-dismiss="alert">×</button>
+									  {{ successText }}
+								  </div>
+								{% endif %}
+                                 <div class="schat-msg-input">
+                                    <input type="text" placeholder="{{ lang['smmspot.viewticket.messagebox.text'] }}" rows="5" name="message" value="{{ data["message"] }}" id="chat-message">
+                                    <button class="send-btn" type="submit"><i class="fas fa-paper-plane"></i><span class="ms-3">{{ lang['smmspot.viewticket.send.button'] }} {{ message["time"] }}</span></button>
+                                 </div>
+                              </form>
+                           </div>
+						   {% endif %}
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <!-- card -->
+            </div>
+            <!-- col -->
+         </div>
+      </div>
+   </div>
+</main>
+
+
+			<script type="text/javascript">
+			  let ticketUrl = window.location.href.split('/');
+			  let ticketID = ticketUrl[ticketUrl.length - 1];
+			  document.querySelector('#ticket-id').innerHTML = '#' + ticketID;
+			  window.onload = function(){
+
+				$('[data-toggle="tooltip"]').tooltip(); 
+				
+				let ajaxUrl = "/tickets";
+				
+				$.ajax({
+				  url: ajaxUrl,
+				}).done(function(data){
+				  let html = $.parseHTML(data);
+				  let msg_container = $(html).find('.old-tickets .old-ticket');
+				  $(msg_container).find('.active').removeClass('active');
+
+				  let ticketId = window.location.href.split('/');
+				  ticketId = ticketId[ticketId.length - 1 ];
+				  
+				  $(msg_container).find('a[data-id="'+ ticketId +'"]').addClass('active');
+				  $('.old-tickets').append(msg_container);
+
+				});
+
+			  };
+			</script>
+{% include 'footer.twig' %}

@@ -1,0 +1,92 @@
+{% include 'header.twig' %}
+{% if user['auth'] %}
+{% else %}
+<style>.app-main{padding-top: 125px}</style>
+{% endif %}
+<main class="app-main">
+    <div class="page-content">
+      {% if user['auth'] %}
+        <div class="container-fluid">
+      {% else %}
+         <div class="container">
+      {% endif %}
+		
+			<div class="hp-bbox mt-5 mb-5">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="hpbb-body">
+                            <h2 class="hp-title">{{ lang['smmspot.faq.title'] }}</h2>
+                            <p class="hpbb-text">
+								{{ lang['smmspot.faq.text'] }}
+							</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+							<div class="faq-ss-tabs">
+                                 <div class="home-ss-tab">
+                                    <div class="ss-tab-head">
+                                       <div class="row">
+                                          <div class="col">
+                                             {{ lang['smmspot.faq.tab1.button'] }}
+                                          </div>
+                                          <div class="col-auto align-self-center right-p">
+                                             <i class="fas fa-plus"></i>
+                                             <i class="fas fa-minus"></i>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <div class="ss-tab-content">
+                                       {{ lang['smmspot.faq.tab1.text'] }} 
+                                    </div>
+                                 </div>
+                                 <!-- home-ss-tab end -->
+								 
+                                 <div class="home-ss-tab">
+                                    <div class="ss-tab-head">
+                                       <div class="row">
+                                          <div class="col">
+											 {{ lang['smmspot.faq.tab2.button'] }}
+                                          </div>
+                                          <div class="col-auto align-self-center right-p">
+                                             <i class="fas fa-plus"></i>
+                                             <i class="fas fa-minus"></i>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <div class="ss-tab-content">
+                                       {{ lang['smmspot.faq.tab2.text'] }}  
+                                    </div>
+                                 </div>
+                                 <!-- home-ss-tab end -->
+								 
+                                 <div class="home-ss-tab">
+                                    <div class="ss-tab-head">
+                                       <div class="row">
+                                          <div class="col">
+                                             {{ lang['smmspot.faq.tab3.button'] }}
+                                          </div>
+                                          <div class="col-auto align-self-center right-p">
+                                             <i class="fas fa-plus"></i>
+                                             <i class="fas fa-minus"></i>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <div class="ss-tab-content">
+                                       {{ lang['smmspot.faq.tab3.text'] }}
+                                    </div>
+                                 </div>
+                                 <!-- home-ss-tab end -->
+								 
+                            </div>
+  
+
+
+        </div>
+    </div>
+</main>
+{% include 'footer.twig' %}
+
+ 

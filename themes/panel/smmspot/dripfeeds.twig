@@ -1,0 +1,274 @@
+{% include 'header.twig' %}
+<main class="app-main">
+	<div class="page-content">
+		<div class="container-fluid">
+
+			<div class="row mt-4 pt-2">
+				<div class="col-12">
+					<form action="" method="get" id="history-search">
+					<div class="fg fg-dark">
+						<div class="fg-icon" style="background-color: transparent;"><i class="far fa-search"></i></div>
+						<input type="text" name="search" class="fg-control" value="{{ search }}" placeholder="{{ lang['smmspot.orders.search.text'] }}">
+					</form>
+					</div>
+
+					<ul class="order-navs mt-3">
+						<li {% if 'all' == status %} class="active"{% endif %}>
+							<a href="dripfeeds">
+								<i class="far fa-filter"></i>
+								<div class="onav-text">{{ lang['dripfeed.status.all'] }}</div>
+							</a>
+						</li>
+						<li {% if 'active' == status %} class="active"{% endif %}>
+							<a href="dripfeeds/active">
+								<i class="far fa-tasks"></i>
+								<div class="onav-text">{{ lang['dripfeed.status.active'] }}</div>
+							</a>
+						</li>
+						<li {% if 'completed' == status %} class="active"{% endif %}>
+							<a href="dripfeeds/completed">
+								<i class="far fa-check-circle"></i>
+								<div class="onav-text">{{ lang['dripfeed.status.completed'] }}</div>
+							</a>
+						</li>
+						<li {% if 'canceled' == status %} class="active"{% endif %}>
+							<a href="dripfeeds/canceled">
+								<i class="far fa-times-circle"></i>
+								<div class="onav-text">{{ lang['dripfeed.status.canceled'] }}</div>
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="order-list">
+
+			{% for dripFeed in orders %}
+				<div id="order-items" class="card card-order mt-5">
+					<div class="card-body">
+						<div class="row">
+							<div class="col-lg-auto col-md-auto col-12 co-part">
+								<div class="coh-icon">
+								{{ dripFeed['id'] }}
+								</div>
+							</div>
+							<div class="col-lg col mb-lg-0 mb-3 co-part">
+								<h4 class="co-text">{{ dripFeed['service'] }}</h4>
+							</div>
+							<div class="col-lg-auto pe-lg-0 co-part mb-lg-0 mb-4">
+								<div class="order-input">
+									<button class="btn btn-transparent btn-sm"
+										onclick="copyToClipboard('{{ dripFeed['link'] }}')">
+										<i class="far fa-copy"></i>
+									</button>
+									<a class="oi-control" href="{{ dripFeed['link'] }}"
+										target="_blank">{{ dripFeed['link'] }}</a>
+								</div>
+							</div>
+							<div class="col-lg-auto col-12 co-part co-right">
+								<div>
+									{% if dripFeed['status'] == lang['dripfeed.status.completed'] %}
+										<div class="order-status d-block os-completed">{{ dripFeed['status_name'] }}</div>
+									{% endif %}
+									{% if dripFeed['status'] == lang['dripfeed.status.active'] %}
+										<div class="order-status d-block os-processing">{{ dripFeed['status_name'] }}</div>
+									{% endif %}
+									{% if dripFeed['status'] == lang['dripfeed.status.canceled'] %}
+										<div class="order-status d-block os-cancel">{{ dripFeed['status_name'] }}</div>
+									{% endif %}
+								</div>
+								<div class="co-right-right">
+									<button class="btn btn-dark orderToggle"><i
+											class="fas fa-chevron-down"></i></button>
+								</div>
+							</div>
+						</div>
+						<div class="co-hidden" style="display: none;">
+							<div class="row">
+								<div class="col-xl-2 col-lg-6 col-md-12 mb-4 mb-xl-0">
+									<div class="chid-item">
+										<div class="d-flex align-items-center">
+											<div class="coh-icon">
+												<i class="far fa-chart-line"></i>
+											</div>
+											<div class="coh-details ps-2">
+												<h3 class="coh-m-title">{{ dripFeed['total_charges'] }}</h3>
+												<div class="coh-count">{{ lang['dripfeed.total_charge'] }}</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-xl-auto col-lg-6 col-md-12 mb-4 mb-xl-0">
+									<div class="chid-item">
+										<div class="d-flex align-items-center">
+											<div class="coh-icon">
+												<i class="far fa-chart-line"></i>
+											</div>
+											<div class="coh-details ps-2">
+												<h3 class="coh-m-title">{{ dripFeed['quantity'] }}</h3>
+												<div class="coh-count">{{ lang['dripfeed.quantity'] }}</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-xl-auto col-lg-6 col-md-12 mb-4 mb-xl-0">
+									<div class="chid-item">
+										<div class="d-flex align-items-center">
+											<div class="coh-icon">
+												<i class="far fa-chart-line"></i>
+											</div>
+											<div class="coh-details ps-2">
+												<h3 class="coh-m-title">
+												{% if dripFeed['delivery'] %}
+                  <a href="orders?dripfeed={{ dripFeed['id'] }}">
+				  {{ dripFeed['delivery'] }}
+                  </a> / {{ dripFeed['runs'] }}
+                {% else %}
+				{{ dripFeed['delivery'] }} / {{ dripFeed['runs'] }}
+                {% endif %}</h3>
+												<div class="coh-count">{{ lang['dripfeed.runs'] }}</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-xl-auto col-lg-6 col-md-12 mb-4 mb-xl-0">
+									<div class="chid-item">
+										<div class="d-flex align-items-center">
+											<div class="coh-icon">
+												<i class="far fa-chart-line"></i>
+											</div>
+											<div class="coh-details ps-2">
+												<h3 class="coh-m-title">{{ dripFeed['interval'] }}</h3>
+												<div class="coh-count">{{ lang['dripfeed.interval'] }}</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-xl-auto col-lg-6 col-md-12 mb-4 mb-xl-0">
+									<div class="chid-item">
+										<div class="d-flex align-items-center">
+											<div class="coh-icon">
+												<i class="far fa-chart-line"></i>
+											</div>
+											<div class="coh-details ps-2">
+												<h3 class="coh-m-title">{{ dripFeed['total_quantity'] }}</h3>
+												<div class="coh-count">{{ lang['dripfeed.total_quantity'] }}</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-xl-auto col-lg-6 col-md-12 mb-4 mb-xl-0">
+									<div class="chid-item">
+										<div class="d-flex align-items-center">
+											<div class="coh-icon">
+												<i class="far fa-chart-line"></i>
+											</div>
+											<div class="coh-details ps-2">
+												<h3 class="coh-m-title">{{ dripFeed['date'] }}</h3>
+												<div class="coh-count">{{ lang['dripfeed.date'] }}</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-xl-auto col-md-12 col-12 col-4">
+									<button class="btn btn-primary ahbtn btn-block bs-3" data-bs-toggle="modal"
+										data-bs-target="#report{{ dripFeed['id'] }}">
+										<i class="fas fa-headset"></i>
+										<span class="ms-3 d-inline-block d-xl-none">{{ lang['smmspot.dripfeed.create.ticket.text'] }}</span>
+									</button>
+								</div>
+							</div>						
+						</div>
+					</div>
+				</div><!-- card-order -->
+				
+						<div class="modal fade" id="report{{ dripFeed['id'] }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+								   <div class="modal-dialog modal-dialog-centered">
+									  <div class="modal-content">
+										 <!-- Modal Header -->
+										 <div class="modal-header">
+											<h4 class="modal-title">{{ lang['smmspot.dripfeed.create.ticket.text2'] }}</h4>
+											<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+										 </div>
+										 <!-- Modal body -->
+										 <div class="modal-body">
+											<div class="payout">
+											  
+												 <form action="tickets" id="gonderilenform{{ dripFeed['id'] }}" method="POST">
+													<div id="sonuc"></div>
+												  <div class="form-group mb-3">
+													<label for="subject" class="control-label">{{ lang['smmspot.dripfeed.ticket.subject.title'] }}</label>
+													<select class="form-control" id="subject" name="subject">
+														  <option value="1">{{ lang['smmspot.dripfeed.ticket.subject.1'] }}</option>
+														  <option value="2">{{ lang['smmspot.dripfeed.ticket.subject.2'] }}</option>
+														  <option value="3">{{ lang['smmspot.dripfeed.ticket.subject.3'] }}</option>
+														  <option value="4">{{ lang['smmspot.dripfeed.ticket.subject.4'] }}</option>
+														  <option value="6">{{ lang['smmspot.dripfeed.ticket.subject.5'] }} </option>  
+													</select>
+												  </div>
+												  <div class="form-group">
+													<label for="message" class="control-label">{{ lang['smmspot.dripfeed.ticket.message.text'] }} </label>
+													<textarea class="form-control" rows="7" id="message" name="message" required></textarea>
+												  </div>
+												  <input type="hidden" name="_csrf" value="{{ csrftoken }}">
+												  <button id="buton{{ dripFeed['id'] }}" class="btn btn-primary btn-block mt-3">{{ lang['smmspot.dripfeed.ticket.send.text'] }}</button>
+												</form>
+											  
+											</div>
+										  
+										 </div>
+									  </div>
+								   </div>
+								</div>  
+				
+				{% endfor %}
+
+
+			</div>
+			
+      {% if pagination["count"] > 1 %}
+									<ul class="pagination">
+
+										{% if pagination["current"] != 1 %}
+										<li>
+											<a href="dripfeeds/{% if status == "dripfeeds" %}all{% else %}{{ status }}{% endif %}/{{ pagination["previous"] }}{% if search %}?search={{ search }}{% endif %}" aria-label="Previous">
+												<span aria-hidden="true">«</span>
+											</a>
+										</li>
+										{% endif %}
+
+										{% set r, l = 3, 3 %}
+
+										{% if pagination['current'] == 1 %}
+										{% set r = 7 %}
+										{% endif %}
+
+										{% if pagination['current'] == 2 %}
+										{% set r = 5 %}
+										{% endif %}
+
+										{% if pagination['current'] >= pagination['count'] %}
+										{% set l = 5 %}
+										{% endif %}
+
+										{% for page in 1..pagination["count"] %}
+										{% if page >= (pagination['current']-l) and page <= (pagination['current']+r) %}
+										<li{% if page == pagination['current'] %} class="active" {%endif%}><a href="dripfeeds/{% if status == "dripfeeds" %}all{% else %}{{ status }}{% endif %}/{{ page }}{% if search %}?search={{ search }}{% endif %}">{{ page }}</a></li>
+										{%endif%}
+										{% endfor %}
+
+										{% if pagination['current'] < pagination['count'] %}
+										<li>
+											<a href="dripfeeds/{% if status == "dripfeeds" %}all{% else %}{{ status }}{% endif %}/{{ pagination['next'] }}{% if search %}?search={{ search }}{% endif %}" aria-label="Next">
+												<span aria-hidden="true">»</span>
+											</a>
+										</li>
+										{% endif %}
+
+									</ul>
+									{% endif %}
+
+		</div>
+	</div>
+</main>
+{% include 'footer.twig' %}

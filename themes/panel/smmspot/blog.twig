@@ -1,0 +1,43 @@
+{% include 'header.twig' %}
+
+{% if user['auth'] %}
+{% else %}
+<style>.app-main{padding-top: 125px}</style>
+{% endif %}
+<main class="app-main">
+    <div class="page-content">
+      {% if user['auth'] %}
+        <div class="container-fluid">
+      {% else %}
+         <div class="container">
+      {% endif %}
+		
+			<div class="hp-bbox mt-5 mb-5">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="hpbb-body">
+                            <h2 class="hp-title">{{ lang['smmspot.blog.title'] }} </h2>
+                            <p class="hpbb-text">
+								{{ lang['smmspot.blog.text'] }} 
+							</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {% for post in blogList %}
+			<div class="card mb-3">
+				<div class="card-afip-body">
+          {% if post['blog_image'] %} <p><img src="{{ post['blog_image'] }}" alt="{{ post['blog_title'] }}" class="img-fluid">
+					</p> {% endif %}
+					<h4>{{ post['blog_title'] }}</h4>
+					<div class="blog-txt">{{ post['blog_content'] }}</div>
+					<a href="{{ site['url'] }}/blog/{{ post['url'] }}" class="btn btn-primary">{{ lang['blog.read'] }}</a>
+				</div>
+			</div>
+			{% endfor %}
+        </div>
+    </div>
+</main>
+{% include 'footer.twig' %}
+ 

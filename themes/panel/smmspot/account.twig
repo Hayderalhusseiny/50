@@ -1,0 +1,240 @@
+{% include 'header.twig' %}
+<main class="app-main">
+    <div class="page-content acc-panel">
+        <div class="container-fluid">
+		
+			<div class="card mt-5 mb-5">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card-body">
+							<div class="usp-top">
+								<h2 class="hp-title">{{ lang['smmspot.account.title'] }}</h2>
+								<p class="hpbb-text">
+									{{ lang['smmspot.account.text'] }}
+								</p>
+							</div>
+							
+							<div class="row mt-4">
+								<div class="col-lg-3">
+									<div class="top-card br">
+										<div class="row align-items-center">
+											<div class="col-auto">
+												<div class="cnb-circle">
+													<i class="far fa-user-crown"></i>
+												</div>
+											</div><!-- ./col -->
+											<div class="col">
+												<h2>{{ lang['account.username'] }}</h2>
+												<h3>{{ user['username'] }} <i class="far fa-badge-check"></i></h3>
+											</div>
+										</div>
+									</div>
+								</div>
+								
+								<div class="col-lg-3">
+									<div class="top-card br">
+										<div class="row align-items-center">
+											<div class="col-auto">
+												<div class="cnb-circle">
+													<i class="far fa-envelope-open-text"></i>
+												</div>
+											</div><!-- ./col -->
+											<div class="col">
+												<h2>{{ lang['account.email'] }}</h2>
+												<h3>{{ user['email'] }}</h3>
+											</div>
+										</div>
+                                    </div>
+								</div>
+								
+								<div class="col-lg-3">
+									<div class="top-card br">
+										<div class="row align-items-center">
+											<div class="col-auto">
+												<div class="cnb-circle">
+													<i class="far fa-badge-sheriff"></i>
+												</div>
+											</div><!-- ./col -->
+											<div class="col">
+												<h2>{{ lang['smmspot.account.status.title'] }} </h2>
+												  {% if user['spent'] >= 100000 %}
+												  <h3>{{ lang['smmspot.account.status.1'] }}</h3>
+												  {% elseif user['spent'] >= 8000 %}
+												  <h3>{{ lang['smmspot.account.status.2'] }} </h3>
+												  {% elseif user['spent'] >= 4000 %}
+												  <h3>{{ lang['smmspot.account.status.3'] }}</h3>
+												  {% else %}
+												  <h3>{{ lang['smmspot.account.status.4'] }} </h3>
+												  {% endif %} 
+											</div>
+										</div>
+                                    </div>
+								</div>
+								
+								<div class="col-lg-3">
+									<div class="top-card">
+										<div class="row align-items-center">
+											<div class="col-auto">
+												<div class="cnb-circle">
+													<i class="far fa-wallet"></i>
+												</div>
+											</div><!-- ./col -->
+											<div class="col">
+												<h2>{{ lang['smmspot.account.balance.title'] }}</h2>
+												<h3>{{user['balance']}}</h3>
+											</div>
+										</div>
+                                    </div>
+								</div>
+							</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+			<div class="row">
+				<div class="col-12">
+					{% if success %}
+						<div class="alert alert-dismissible alert-success">
+							<button type="button" class="close" data-dismiss="alert">×</button>
+							{{ successText }}
+						</div>
+					{% endif %}
+                    {% if error %}
+						<div class="alert alert-dismissible alert-danger">
+							<button type="button" class="close" data-dismiss="alert">×</button>
+							{{ errorText }}
+						</div>
+					{% endif %}
+				</div>
+			</div>
+
+			<div class="row">
+                <div class="col-lg-4 col-md-5">
+                    <div class="card">
+                        <div class="card-body">
+                            <ul class="nav nav-pills nav-custom-4 mb-3" id="pills-tab" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="false">
+                                        {{ lang['smmspot.account.button.1'] }}
+                                    </button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="true">
+                                        {{ lang['smmspot.account.button.2'] }}
+                                    </button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">
+                                        {{ lang['smmspot.account.button.3'] }}
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div><!-- col left -->
+                <div class="col-lg-8 col-md- mt-4 mt-md-0">
+				    <div class="card py-3">
+                        <div class="card-body">
+                            <div class="tab-content" id="pills-tabContent">
+                                <div class="tab-pane fade active show" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+									<form method="post" action="account">
+
+									   <div class="fga mb-4">
+                                            <label class="fla" for="formCurrentPass">{{ lang['account.password.current'] }}</label>
+                                            <div class="fg">
+												<div class="fg-icon"><i class="far fa-lock-alt"></i></div>
+                                                <input type="password" id="current" name="current_password" class="fg-control">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <div class="fga mb-4">
+                                                    <label class="fla" for="newPassowrd">{{ lang['account.password.new'] }}</label>
+                                                    <div class="fg">
+														<div class="fg-icon"><i class="far fa-key"></i></div>
+                                                        <input type="password" id="new" name="password" class="fg-control">
+                                                    </div>
+                                                </div>
+                                            </div><!-- col -->
+                                            <div class="col-lg-6">
+                                                <div class="fga mb-4">
+                                                    <label class="fla" for="confirmPass">{{ lang['account.password.confirm'] }}</label>
+                                                    <div class="fg">
+														<div class="fg-icon"><i class="far fa-key"></i></div>
+                                                        <input type="password" id="confirm" name="confirm_password" class="fg-control">
+                                                    </div>
+                                                </div>
+                                            </div><!-- col -->
+                                        </div><!-- row -->
+                                        <button type="submit" class="btn btn-primary btn-block">{{ lang['account.password.button'] }}</button>
+                                    </form>
+                                </div>
+                                <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+                                    <form action="account/timezone" method="post">
+                                        <div class="fga mb-4">
+                                            <label class="fla" for="timeZoneF">{{ lang['account.timezone.title'] }}</label>
+                                            <div class="fg">
+												<div class="fg-icon"><i class="far fa-clock"></i></div>
+                                                <select name="timezone" id="timezone" class="form-control fg-control">
+                                                    {% for timezone in timezones %}
+                                                        <option {% if timezone["timezone"] == user['timezone'] %} selected {% endif %} value="{{ timezone["timezone"] }}">{{ timezone["label"] }}</option>
+                                                    {% endfor %}
+												</select>
+                                            </div>
+                                        </div>	
+                                        <button type="submit" class="btn btn-primary btn-block">{{ lang['account.timezone.button'] }}</button>
+                                      </form>
+                                      
+                                      {% if site['languages']|length > 1 %}
+                                      <div class="fga mt-4">
+                                      <form action="account/change_lang" method="post">
+                                        <div class="fga mb-4">
+                                            <label class="fla" for="changelang">{{ lang['account.changelang.title'] }}</label>
+                                            <div class="fg">
+												<div class="fg-icon"><i class="far fa-clock"></i></div>
+                                                <select name="lang" id="changelang" class="form-control fg-control">
+                                                    {% for language in site['languages'] %}
+                                                    <option {% if language["code"] == user["lang"] %} selected {% endif %} value="{{ language["code"] }}">{{ language["name"] }}</option>
+                                                    {% endfor %}
+												</select>
+                                            </div>
+                                        </div>	
+                                        <button type="submit" class="btn btn-primary btn-block">{{ lang['account.changelang.button'] }}</button>
+                                      </form>
+                                      </div>
+                                      {% endif %}
+                                </div>
+                                <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
+								
+                                   <form action="account/newapikey" method="post">
+                                        <div class="fga mb-4">
+                                            <label class="fla">{{ lang['smmspot.account.api.link.title'] }}</label>
+                                            <div class="fg">
+											    <div class="fg-icon"><i class="far fa-code"></i></div>
+											    <input type="text" class="fg-control" value="{{ site['url'] }}/api/v2" readonly="">
+											</div>
+                                        </div>
+                                        <div class="fga mb-4">
+                                            <label class="fla" for="idAPIKEY">{{ lang['smmspot.account.api.key.title'] }}</label>
+                                            <div class="fg">
+											    <div class="fg-icon"><i class="far fa-code"></i></div>
+											    <input type="text" class="fg-control" id="api_key" value="{{ user['apikey'] }}" readonly="">
+											</div>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary btn-block">{{ lang['account.generate.key'] }}</button>
+                                    </form>
+                                </div>
+                                
+                            </div><!-- ./tab-content -->
+                        </div>
+                    </div><!-- card -->
+                </div><!-- ./col right -->
+            </div>
+  
+
+
+        </div>
+    </div>
+</main>
+{% include 'footer.twig' %}

@@ -1,0 +1,313 @@
+{% include 'header.twig' %}
+<main class="app-main">
+	<div class="page-content">
+		<div class="container-fluid">
+
+			<div class="row mt-4 pt-2">
+				<div class="col-12">
+					<form action="" method="get" id="history-search">
+					<div class="fg fg-dark">
+						<div class="fg-icon" style="background-color: transparent;"><i class="far fa-search"></i></div>
+						<input type="text" name="search" class="fg-control" value="{{ search }}" placeholder="{{ lang['smmspot.orders.search.text'] }}">
+					</form>
+					</div>
+
+					<ul class="order-navs mt-3">
+						<li {% if 'all' == status %} class="active"{% endif %}>
+							<a href="orders">
+								<i class="far fa-filter"></i>
+								<div class="onav-text">{{ lang['orders.status.all'] }}</div>
+							</a>
+						</li>
+						<li {% if 'pending' == status %} class="active"{% endif %}>
+							<a href="orders/pending">
+								<i class="fas fa-spinner"></i>
+								<div class="onav-text">{{ lang['orders.status.pending'] }}</div>
+							</a>
+						</li>
+						<li {% if 'inprogress' == status %} class="active"{% endif %}>
+							<a href="orders/inprogress">
+								<i class="far fa-tasks"></i>
+								<div class="onav-text">{{ lang['orders.status.inprogress'] }}</div>
+							</a>
+						</li>
+						<li {% if 'completed' == status %} class="active"{% endif %}>
+							<a href="orders/completed">
+								<i class="far fa-check-circle"></i>
+								<div class="onav-text">{{ lang['orders.status.completed'] }}</div>
+							</a>
+						</li>
+						<li {% if 'partial' == status %} class="active"{% endif %}>
+							<a href="orders/partial">
+								<i class="far fa-project-diagram"></i>
+								<div class="onav-text">{{ lang['smmspot.orders.status.partial'] }}</div>
+							</a>
+						</li>
+						<li {% if 'processing' == status %} class="active"{% endif %}>
+							<a href="orders/processing">
+								<i class="far fa-sync"></i>
+								<div class="onav-text">{{ lang['orders.status.processing'] }}</div>
+							</a>
+						</li>
+						<li {% if 'canceled' == status %} class="active"{% endif %}>
+							<a href="orders/canceled">
+								<i class="far fa-times-circle"></i>
+								<div class="onav-text">{{ lang['orders.status.canceled'] }}</div>
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			
+			{% if orders is empty and 'all' == status %}
+			<div class="card mt-3">
+				<div class="card-body">
+					<div class="noorders text-center">
+							<img src="https://cdn.smmspot.net/sites/smmspot/assets/images/smiley.svg" class="img-fluid smiley my-5" />
+							<p>{{ lang['smmspot.orders.no.order.text1'] }} <strong>{{user['username']}}</strong>, {{ lang['smmspot.orders.no.order.text2'] }} </p>
+							<p>{{ lang['smmspot.orders.no.order.text3'] }} <a href="/">{{ lang['smmspot.orders.no.order.text4'] }}   </p>
+						<div class="d-flex justify-content-center mt-5">
+							 <a href="/addfunds"><button class="btn btn-primary btn-lg mb-4 mx-1">{{ lang['smmspot.orders.no.order.button1'] }}</button></a>
+							 <a href="/"><button class="btn btn-dark btn-lg mb-4 mx-1">{{ lang['smmspot.orders.no.order.button2'] }} </button></a>
+						</div>
+					</div>
+				</div>
+			</div>
+			{% endif %}
+
+
+			<div class="order-list">
+
+			{% for order in orders %}
+				<div id="order-items" class="card card-order mt-5">
+					<div class="card-body">
+						<div class="row">
+							<div class="col-lg-auto col-md-auto col-12 co-part">
+								<div class="coh-icon">
+								{{ order['id'] }}
+								</div>
+							</div>
+							<div class="col-lg col mb-lg-0 mb-3 co-part">
+								<h4 class="co-text">{{ order['service'] }}</h4>
+							</div>
+							<div class="col-lg-auto pe-lg-0 co-part mb-lg-0 mb-4">
+								<div class="order-input">
+									<button class="btn btn-transparent btn-sm"
+										onclick="copyToClipboard('{{ order['link'] }}')">
+										<i class="far fa-copy"></i>
+									</button>
+									<a class="oi-control" href="{{ order['link'] }}"
+										target="_blank">{{ order['link'] }}</a>
+								</div>
+							</div>
+							<div class="col-lg-auto col-12 co-part co-right">
+								<div>
+									{% if order['status'] ==  lang['orders.status.completed']  %}
+										<div class="order-status d-block os-completed">{{ order['status'] }}</div>
+									{% endif %}
+									{% if order['status'] ==  lang['orders.status.inprogress']  %}
+										<div class="order-status d-block os-processing">{{ order['status'] }}</div>
+									{% endif %}
+									{% if order['status'] ==  lang['orders.status.pending']  %}
+										<div class="order-status d-block os-pending">{{ order['status'] }}</div>
+									{% endif %}
+									{% if order['status'] ==  lang['orders.status.partial']  %}
+										 <div class="order-status d-block os-partial">{{ order['status'] }}</div>
+									{% endif %}
+									{% if order['status'] ==  lang['orders.status.processing']  %}
+										<div class="order-status d-block os-iprogress">{{ order['status'] }}</div>
+									{% endif %}
+									{% if order['status'] ==  lang['orders.status.canceled'] %}
+										<div class="order-status d-block os-cancel">{{ order['status'] }}</div>
+									{% endif %}
+								</div>
+								<div class="co-right-right">
+									<button class="btn btn-dark orderToggle"><i
+											class="fas fa-chevron-down"></i></button>
+								</div>
+							</div>
+						</div>
+						<div class="co-hidden" style="display: none;">
+							<div class="row">
+								<div class="col-xl-2 col-6 mb-4 mb-xl-0">
+									<div class="chid-item">
+										<div class="d-flex align-items-center">
+											<div class="coh-icon">
+												<i class="far fa-chart-line"></i>
+											</div>
+											<div class="coh-details ps-2">
+												<h3 class="coh-m-title">{{ order['charge'] }}</h3>
+												<div class="coh-count">{{ lang['orders.charge'] }}</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-xl-2 col-6 mb-4 mb-xl-0">
+									<div class="chid-item">
+										<div class="d-flex align-items-center">
+											<div class="coh-icon">
+												<i class="far fa-chart-line"></i>
+											</div>
+											<div class="coh-details ps-2">
+												<h3 class="coh-m-title">{{ order['quantity'] }}</h3>
+												<div class="coh-count">{{ lang['orders.quantity'] }}</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-xl-2 col-lg-6 col-md-12 mb-4 mb-xl-0">
+									<div class="chid-item">
+										<div class="d-flex align-items-center">
+											<div class="coh-icon">
+												<i class="far fa-chart-line"></i>
+											</div>
+											<div class="coh-details ps-2">
+												<h3 class="coh-m-title">{{ order['start_count'] }}</h3>
+												<div class="coh-count">{{ lang['orders.start.count'] }}</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-xl-2 col-lg-6 col-md-12 mb-4 mb-xl-0">
+									<div class="chid-item">
+										<div class="d-flex align-items-center">
+											<div class="coh-icon">
+												<i class="far fa-chart-line"></i>
+											</div>
+											<div class="coh-details ps-2">
+												<h3 class="coh-m-title">{{ order['remains'] }}</h3>
+												<div class="coh-count">{{ lang['orders.remains'] }}</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-xl-auto col-lg-6 col-md-12 mb-4 mb-xl-0">
+									<div class="chid-item">
+										<div class="d-flex align-items-center">
+											<div class="coh-icon">
+												<i class="far fa-chart-line"></i>
+											</div>
+											<div class="coh-details ps-2">
+												<h3 class="coh-m-title">{{ order['date'] }}</h3>
+												<div class="coh-count">{{ lang['orders.date'] }}</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-xl-auto col-md-12 col-12 col-4">
+									<button onclick="window.location.href='/tickets'" class="btn btn-primary ahbtn btn-block bs-3" >
+										<i class="fas fa-headset"></i>
+										<span class="ms-3 d-inline-block d-xl-none">{{ lang['smmspot.orders.create.ticket.text'] }}</span>
+									</button>
+								</div>
+							</div>
+
+							<div class="row mt-3">
+								<div class="col-lg-6">
+								  
+								{% if order['refillButton'] %}
+									<a href="/orders/refill/{{ order['id'] }}" class="btn btn-dark btn-block">{{ lang['orders.button.refill'] }}</a>
+								  {% endif %}
+
+								</div>
+								<div class="col-lg-6">
+								{% if order['cancelButton'] %}
+								  <a href="/orders/cancel/{{ order['id'] }}" class="btn btn-primary btn-block">{{ lang['orders.button.cancel'] }}</a>
+								{% endif %}
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div><!-- card-order -->
+				
+						<div class="modal fade" id="report{{ order['id'] }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+								   <div class="modal-dialog modal-dialog-centered">
+									  <div class="modal-content">
+										 <!-- Modal Header -->
+										 <div class="modal-header">
+											<h4 class="modal-title">{{ lang['smmspot.orders.create.ticket.text2'] }} </h4>
+											<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+										 </div>
+										 <!-- Modal body -->
+										 <div class="modal-body">
+											<div class="payout">
+											  
+												 <form  id="gonderilenform{{ order['id'] }}">
+													<div id="sonuc"></div>
+												  <div class="form-group mb-3">
+													<label for="subject" class="control-label">{{ lang['smmspot.orders.ticket.subject.title'] }}</label>
+													<select class="form-control" id="subject" name="TicketForm[subject]">
+														  <option value="I want to cancel my order #{{ order['id'] }}">{{ lang['smmspot.orders.ticket.subject.1'] }} </option>
+														  <option value="The amount sent has decreased #{{ order['id'] }}">{{ lang['smmspot.orders.ticket.subject.2'] }}       </option>
+														  <option value="My order is pending #{{ order['id'] }}">{{ lang['smmspot.orders.ticket.subject.3'] }}</option>
+														  <option value="Why was my order cancelled?? #{{ order['id'] }}">{{ lang['smmspot.orders.ticket.subject.4'] }}</option>
+														  <option value="Other #{{ order['id'] }}">{{ lang['smmspot.orders.ticket.subject.5'] }} </option>  
+													</select>
+												  </div>
+												  <div class="form-group">
+													<label for="message" class="control-label">{{ lang['smmspot.orders.ticket.message.text'] }} </label>
+													<textarea class="form-control" rows="7" id="message" name="TicketForm[message]" required></textarea>
+												  </div>
+												  <button id="buton{{ order['id'] }}" class="btn btn-primary btn-block mt-3">{{ lang['smmspot.orders.ticket.send.text'] }} </button>
+												</form>
+											  
+											</div>
+										  
+										 </div>
+									  </div>
+								   </div>
+								</div>  
+							
+				
+				{% endfor %}
+
+
+			</div>
+			
+			{% if pagination["count"] > 1 %}
+									<ul class="pagination">
+
+										{% if pagination["current"] != 1 %}
+										<li>
+											<a href="orders/{% if status == "orders" %}all{% else %}{{ status }}{% endif %}/{{ pagination["previous"] }}{% if search %}?search={{ search }}{% endif %}" aria-label="Previous">
+												<span aria-hidden="true">«</span>
+											</a>
+										</li>
+										{% endif %}
+
+										{% set r, l = 3, 3 %}
+
+										{% if pagination['current'] == 1 %}
+										{% set r = 7 %}
+										{% endif %}
+
+										{% if pagination['current'] == 2 %}
+										{% set r = 5 %}
+										{% endif %}
+
+										{% if pagination['current'] >= pagination['count'] %}
+										{% set l = 5 %}
+										{% endif %}
+
+										{% for page in 1..pagination["count"] %}
+										{% if page >= (pagination['current']-l) and page <= (pagination['current']+r) %}
+										<li{% if page == pagination['current'] %} class="active" {%endif%}><a href="orders/{% if status == "orders" %}all{% else %}{{ status }}{% endif %}/{{ page }}{% if search %}?search={{ search }}{% endif %}">{{ page }}</a></li>
+										{%endif%}
+										{% endfor %}
+
+										{% if pagination['current'] < pagination['count'] %}
+										<li>
+											<a href="orders/{% if status == "orders" %}all{% else %}{{ status }}{% endif %}/{{ pagination['next'] }}{% if search %}?search={{ search }}{% endif %}" aria-label="Next">
+												<span aria-hidden="true">»</span>
+											</a>
+										</li>
+										{% endif %}
+
+									</ul>
+									{% endif %}
+
+		</div>
+	</div>
+</main>
+{% include 'footer.twig' %}

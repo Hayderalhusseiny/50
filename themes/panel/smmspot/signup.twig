@@ -1,0 +1,184 @@
+{% include 'header.twig' %}
+<style>header, footer {display:none}</style>
+
+<main>
+
+<div class="register-page">
+        <div class="container">
+            <div class="register-box">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="register-left">
+                            <div class="p-5">
+                                <div style="flex: 1;">
+									<div class="p-1">
+										<img src="/assets/smmspot/assets/images/login-card.png" class="img-fluid">
+										<div class="p-4 text-center">
+											<h1>{{ lang['smmspot.signup.title'] }}</h1>
+											<p>{{ lang['smmspot.signup.text'] }} </p>
+										</div>
+									</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="p-5 register-form">
+							<div class="hlb-header mb-5">
+								<div class="row text-center">
+									<div class="col-auto mx-auto login-logo d-flex align-items-center">
+							<a class="sidebar-logo-cont" href="/">
+                              {% if site['logo'] %}
+                                <img src="{{ site['logo'] }}" height="80" class="sidebar-big-logo" alt="{{ site['site_name'] }}" title="{{ site['site_name'] }}">
+                              {% else %}
+                                {{ site['site_name'] }}
+                              {% endif %}
+                            </a> <span style="font-size: 24px">{{ lang['smmspot.signup.register.here.text'] }}</span>
+									</div>
+								</div>
+							</div>
+							<form action="" method="post">
+							  {% if errorText %}
+								<div class="alert alert-dismissible alert-danger">
+								  {{ errorText }}
+								</div>
+							  {% endif %}
+							  {% if successText %}
+								<div class="alert alert-dismissible alert-success">
+								  {{ successText }}
+								</div>
+							  {% endif %}
+								<div class="form-group">
+									<div class="fga mb-4">
+										<label class="fla">{{ lang['signup.username'] }}</label>
+										<div class="fg">
+											<div class="fg-icon">
+												<i class="fal fa-user"></i>
+											</div>
+											<input type="text" class="fg-control"  id="username" value="{{ data['username'] }}" name="username">
+										</div>
+									</div>
+								</div>
+
+								{% if settings['name_secret'] == 2 %}	
+								<div class="row">	
+									<div class="col-6">
+										<div class="form-group">
+											<div class="fga mb-4">
+												<label class="fla">{{ lang['signup.first_name'] }}</label>
+												<div class="fg">
+													<div class="fg-icon">
+														<i class="fal fa-portrait"></i>
+													</div>
+													<input type="text" class="fg-control" id="first_name" value="{{ data['first_name'] }}" name="first_name">
+												</div>
+											</div>
+										</div>  
+									</div>  
+								
+									<div class="col-6">
+										<div class="form-group">
+											<div class="fga mb-4">
+												<label class="fla">{{ lang['signup.last_name'] }}</label>
+												<div class="fg">
+													<div class="fg-icon">
+														<i class="fal fa-portrait"></i>
+													</div>
+													<input type="text" class="fg-control" id="last_name" value="{{ data['last_name'] }}" name="last_name">
+												</div>
+											</div>
+										</div>  
+									</div>  
+								</div>
+								{% endif %}
+
+								<div class="form-group">
+									<div class="fga mb-4">
+										<label class="fla">{{ lang['signup.email'] }}</label>
+										<div class="fg">
+											<div class="fg-icon">
+												<i class="fal fa-envelope-open"></i>
+											</div>
+											<input type="email" class="fg-control" id="email" value="{{ data['email'] }}" name="email">
+										</div>
+									</div>
+								</div>  
+
+								{% if settings['skype_area'] == 2 %}
+								<div class="form-group">
+									<div class="fga mb-4">
+										<label class="fla">{{ lang['signup.telephone'] }}</label>
+										<div class="fg">
+											<div class="fg-icon">
+												<i class="fal fa-mobile-android"></i>
+											</div>
+											<input type="text" class="fg-control" id="telephone" value="{{ data['telephone'] }}" name="telephone">
+										</div>
+									</div>
+								</div>  
+								{% endif %}
+
+								<div class="row">	
+									<div class="col-6 col-12">
+										<div class="form-group">
+											<div class="fga mb-4">
+												<label class="fla">{{ lang['signup.password'] }}</label>
+												<div class="fg">
+													<div class="fg-icon">
+														<i class="fal fa-lock-alt"></i>
+													</div>
+													<input type="password" class="fg-control" id="password" name="password">
+												</div>
+											</div>
+										</div>  
+									</div>  
+								
+									<div class="col-6 col-12">
+										<div class="form-group">
+											<div class="fga mb-4">
+												<label class="fla">{{ lang['signup.confirm'] }}</label>
+												<div class="fg">
+													<div class="fg-icon">
+														<i class="fal fa-lock-alt"></i>
+													</div>
+													<input type="password" class="fg-control" id="confirm" name="password_again">
+												</div>
+											</div>
+										</div>  
+									</div>  
+								</div> 		
+								
+								{% if captcha %}
+								<div class="row mt-2">
+									<div class="g-recaptcha" data-sitekey="{{ captchaKey }}"></div>
+								</div>
+								{% endif %}
+								
+							  {% if settings['terms_checkbox'] == 2 %}
+								<div class="form-group">
+								  <div class="checkbox">
+									<label>
+									  <input type="checkbox" class="terms-accept-checkbox" value="1" id="customCheck1" name="terms"> {{ lang['signup.accept_terms_text'] }} <a href="/terms" target="_blank">{{ lang['terms.terms_of_service'] }}</a>
+									</label>
+								  </div>
+								</div>
+								{% endif %}
+													
+                                <button class="btn btn-primary btn-block mt-4">{{ lang['signup.button'] }}</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+
+{% for lang in site['languages'] %}
+{% if lang['active'] %}
+<script src="https://www.google.com/recaptcha/api.js?hl={{ lang['code'] }}"></script>
+{% endif %}
+{% endfor %}
+{% include 'footer.twig' %}

@@ -1,0 +1,186 @@
+{% include 'header.twig' %}
+{% if user['auth'] %}
+{% else %}
+<style>.app-main{padding-top: 125px}</style>
+{% endif %}
+<main class="app-main">
+    <div class="page-content">
+      {% if user['auth'] %}
+        <div class="container-fluid">
+      {% else %}
+         <div class="container">
+      {% endif %}
+		
+            <div class="row mt-4 pt-2">
+                <div class="col-lg-4 col-md-6 col-12">
+                    <div class="dropdown s-filter">
+                        <button class="btn btn-primary btn-lg btn-block dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-filter" style="font-size: 14px"></i> {{ lang['smmspot.services.filter.button.title'] }}
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <li><a  class="dropdown-item" onclick="javascript:filterService('All')">{{ lang['smmspot.services.filter.item.1'] }}</a></li>	
+                            {% for category in serviceCategory %}
+						<li><a  class="dropdown-item" onclick="javascript:filterService('{{ category["category_name"] }}')">{{ category["category_name"] }}</a></li>
+						    {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+				<div class="col-lg-8 col-md-6 col-12 mb-4 mb-md-0">
+                    <div class="fg fg-dark">
+                        <div class="fg-icon" style="background-color: transparent;"><i class="far fa-search"></i></div>
+                        <input type="text" class="fg-control" id="searchService" placeholder="{{ lang['smmspot.services.search'] }}">
+                    </div>
+                </div>            
+			</div>
+
+            <div class="services-list mb-5 mt-5">
+                <div class="tservice-head">
+                    <div class="tservices-row">
+                        <div class="tservice-id">{{ lang['services.id'] }}</div>
+                        <div class="tservice-name">{{ lang['services.name'] }}</div>
+                        <div class="tservice-per">{{ lang['services.price'] }}</div>
+                        <div class="tservice-min">{{ lang['smmspot.services.min'] }}</div>
+                        <div class="tservice-max">{{ lang['smmspot.services.max'] }}</div>
+						{% if avarageTime %}
+                        <div class="tservice-avg">{{ lang['services.avarage'] }}</div>
+						{% endif %}
+                        <div class="tservice-des">{{ lang['services.description'] }}</div>
+                    </div>
+                </div>
+                <div class="services-all">
+				{% for category in serviceCategory %}
+					{% if category['category_name'] %}
+                    <div class="service-title" data-category="{{ category["category_name"]|replace({' ':'-'}) }}">
+                        
+                        <span>{{ category['category_name'] }}</span>
+                    </div>
+                    {% endif %}
+                    
+					{% for service in category['services'] %}
+                    <div class="service-item" id="servisDetay" data-category="{{ category["category_name"]|replace({' ':'-'}) }}">
+                        <div class="tservices-row">
+                            <div class="tservice-id">
+                                <div class="service-id-box">{{ service['service_id'] }}</div>
+                            </div>
+                            <div class="tservice-name">
+                                <div class="t-service-m-title">{{ lang['services.name'] }}</div>
+                                {{ service['service_name'] }}
+                            </div>
+                            <div class="tservice-per">
+                                <div class="t-service-m-title">{{ lang['services.price'] }}</div>
+                                {{ service['service_price'] }}
+                            </div>
+                            <div class="tservice-min">
+                                <div class="t-service-m-title">{{ lang['smmspot.services.min'] }}</div>
+                                {{ service['service_min'] }}
+                            </div>
+                            <div class="tservice-max">
+                                <div class="t-service-m-title">{{ lang['smmspot.services.max'] }}</div>
+                                {{ service['service_max'] }}
+                            </div>
+							{% if avarageTime %}
+                            <div class="tservice-avg">
+                                <div class="t-service-m-title">{{ lang['services.avarage'] }}</div>
+                                {{ service['service_speed'] }}
+                            </div>
+							{% endif %}
+                            <div class="tservice-des">
+                                <button data-bs-toggle="modal" data-bs-target="#sDet{{ service['service_id'] }}" class="btn btn-dark btn-sm"><i class="fas fa-bars"></i></button>
+                            </div>
+                        </div>
+							<div class="modal fade" id="sDet{{ service['service_id'] }}" tabindex="-1" aria-labelledby="servisDetayLabel" aria-hidden="true">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header">
+										  {% if site['logo'] %}
+											<img src="{{ site['logo'] }}" height="35" alt="{{ site['site_name'] }}" title="{{ site['site_name'] }}">
+										  {% else %}
+											{{ site['site_name'] }}
+										  {% endif %}
+											<button class="btn ahbtn bs-2" data-bs-dismiss="modal" aria-label="Close">
+												<i class="fas fa-times"></i>
+											</button>
+										</div>
+										<div class="modal-body">
+											<div class="service-id-box">
+												{{ lang['neworder.service'] }} #{{ service['service_id'] }} 
+											</div>
+											<h3>{{ service['service_name'] }}</h3>
+											<style>
+											#servisDetay .modal-dialog .modal-body p {
+											    overflow-x: initial;
+											}
+											</style>
+											<div style="overflow: auto;">
+												{{service['service_description']}}
+											</div>
+											
+											<div class="services-info">
+												
+												<div class="d-flex justify-content-between">
+													<div class="si-item">
+														<div class="si-circle">
+															<i class="fas fa-bolt"></i>
+														</div>
+														<small>{{ lang['services.price'] }}</small>
+														<p>{{ service['service_price'] }}</p>
+													</div>
+													<div class="si-item">
+														<div class="si-circle">
+															<i class="fas fa-arrow-alt-to-bottom"></i>
+														</div>
+														<small>Min</small>
+														<p>{{ service['service_min'] }}</p>
+													</div>	
+													<div class="si-item">
+														<div class="si-circle">
+															<i class="fas fa-arrow-alt-from-bottom"></i>
+														</div>
+														<small>Max</small>
+														<p>{{ service['service_max'] }}</p>
+													</div>
+												</div>
+												<a href="{{ site['url'] }}/?select_service_id={{ service['service_id'] }}&category_id={{category['category_id']}}" class="btn btn-primary btn-block">{{ lang['smmspot.services.buy.service.button'] }}</a>
+                                              
+                                              
+											</div>
+											<div class="si-overlay"></div>
+										</div>
+									</div>
+								</div>
+							</div> 
+							
+                    </div><!-- service-item -->
+					{% endfor%}
+				{% endfor%}
+                </div>
+            </div>
+
+        </div>
+    </div>
+</main>
+
+<script>
+      function filterService(category) {
+        if (category == 'All')
+          $('.service-item.hidden').removeClass('hidden');
+        else {
+          $('.service-item').addClass('hidden');
+          $('.service-item[data-category="' + category + '"]').removeClass('hidden');
+        }
+        removeEmptyCategory();
+      }
+
+      function removeEmptyCategory() {
+        $('.service-title').each(function () {
+            var next = $(this).next();
+            var services = $(this).nextUntil('.service-title');
+            var empty = true;
+            services.each(function() {
+              if (!$(this).hasClass('hidden')) empty = false;
+            });
+            if (empty) $(this).addClass('hidden');
+        })
+      }
+</script>
+{% include 'footer.twig' %}

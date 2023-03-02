@@ -1,0 +1,94 @@
+{% include 'header.twig' %}
+
+<main class="app-main">
+    <div class="page-content">
+        <div class="container-fluid">
+		
+			<div class="hp-bbox mt-5 mb-5">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="hpbb-body">
+                            <h2 class="hp-title">{{ lang['smmspot.transferfunds.title'] }}</h2>
+                            <p class="hpbb-text">
+								{{ lang['smmspot.transferfunds.text'] }}
+							</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+			 {% if success %}
+										  <div class="alert alert-dismissible alert-success">
+											  {{ successText }}
+										  </div>
+										{% endif %}
+										
+										{% if error %}
+										  <div class="alert alert-dismissible alert-danger">
+											{{ errorText }}
+										  </div>
+										{% endif %}
+            <div class="row mt-2">
+                <div class="col-lg-6">
+                    <div class="card mb-5">
+                        <div class="py-4 px-lg-3 px-4">
+						
+									<div class="t-head th-3">
+										<div class="d-flex align-items-center">
+											<div class="col-lg-2">
+												<div class="t-icon">
+													<i class="fal fa-share"></i>
+												</div>
+											</div>
+											<div class="col-lg-10 col-12">
+												<h2>{{ lang['transferfunds.bank.transferToFriends'] }}</h2>
+												<p>{{ lang['transferfunds.bank.transferToFriendsSmall'] }}</p>
+											</div>
+										</div>
+									</div>
+									
+                                    <form  method="post" action="transferfunds" >
+										
+
+                                        <div class="fga mb-4">
+                                            <label class="fla" for="amount">{{ lang['smmspot.transferfunds.payment.telephone.title'] }}</label>
+                                            <div class="fg">
+                                                <div class="fg-icon"><i class="far fa-user"></i></div>
+                                                <input type="text" name="username" class="fg-control" placeholder="{{ lang['smmspot.transferfunds.payment.telephone.title'] }}" required value="{{ data['username'] }}">
+                                            </div>
+                                        </div>
+
+                                        <div class="fga mb-4">
+                                            <label class="fla" for="amount">{{ lang['transferfunds.amount'] }}</label>
+                                            <div class="fg">
+                                                <div class="fg-icon"><i class="far fa-coin"></i></div>
+                                                <input type="number" class="fg-control" name="amount" id="amount" value="{{ data['amount'] }}">
+                                            </div>
+
+                                        </div>
+        
+                                        <div class="row">
+                                            <div class="col-md-6 col-12 mb-4 mb-mb-0">
+                                                <button type="submit" class="btn btn-primary btn-block">
+                                                {{ lang['smmspot.transferfunds.payment.submit.button'] }}
+                                                </button>
+                                            </div>
+                                            <div class="col-md-6 col-12 mb-4 mb-mb-0">
+                                                <a href="/tickets" class="btn btn-dark btn-block">
+                                                    {{ lang['smmspot.addfunds.tickets.button'] }} 
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </form>
+                        </div>
+                    </div><!-- card -->
+                </div><!-- col -->
+
+
+            </div>
+		
+        </div>
+    </div>
+</main>
+
+	
+{% include 'footer.twig' %}

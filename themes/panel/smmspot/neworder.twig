@@ -1,0 +1,378 @@
+{% include 'header.twig' %}
+<main class="app-main">
+    <div class="page-content">
+        <div class="container-fluid">
+
+            {% if user['unread_ticket'] == 1 %}
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="alert alert-notify fade show" role="alert">
+                        <div class="t-notify th-3">
+                            <div class="row align-items-center">
+                                <div class="col-md-auto">
+                                    <div class="t-icon">
+                                        <i class="fal fa-bullhorn"></i>
+                                    </div>
+                                </div>
+                                <div class="col-md col-12">
+                                    <p><strong>{{ lang['smmspot.neworder.info.support.request.unread'] }} {{ user['unread_ticket'] }} {{ lang['smmspot.neworder.info.support.request.text'] }}</strong></p>
+                                </div>
+                                <div class="col-md-auto">
+                                    <a href="/tickets" type="button" class="btn btn-dark">Şimdi Oku</a>
+                                </div>
+                                <div class="col-md-auto" style="text-align:right">
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+
+            {% endif %}
+
+            <div class="row mb-4">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="py-4 px-lg-4 px-4">
+                            <div class="row">
+                                <!--<div class="col-xl-3 col-md-6">
+                                    <div class="top-card br">
+                                        <div class="row align-items-center">
+                                            <div class="col-auto">
+                                                <div class="cnb-circle">
+                                                    <i class="far fa-box-heart"></i>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <h2>{{ lang['smmspot.neworder.total.order.title'] }}</h2>
+                                                <h3>{{totals['ordersAll']}}</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>-->
+
+                                <div class="col-xl-4 col-md-6">
+                                    <div class="top-card br">
+                                        <div class="row align-items-center">
+                                            <div class="col-auto">
+                                                <div class="cnb-circle">
+                                                    <i class="far fa-wallet"></i>
+                                                </div>
+                                            </div><!-- ./col -->
+                                            <div class="col">
+                                                <h2>{{ lang['smmspot.neworder.total.balance.title'] }}</h2>
+                                                <h3>{{ user['balance'] }}</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-xl-4 col-md-6">
+                                    <div class="top-card br">
+                                        <div class="row align-items-center">
+                                            <div class="col-auto">
+                                                <div class="cnb-circle">
+                                                    <i class="far fa-comment-alt-dollar"></i>
+                                                </div>
+                                            </div><!-- ./col -->
+                                            <div class="col">
+                                                <h2>{{ lang['smmspot.neworder.balance.spent.title'] }}</h2>
+                                                <h3>{{user['spent']}}</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-xl-4 col-md-6">
+                                    <div class="top-card">
+                                        <div class="row align-items-center">
+                                            <div class="col-auto">
+                                                <div class="cnb-circle">
+                                                    <i class="far fa-shield-check"></i>
+                                                </div>
+                                            </div><!-- ./col -->
+                                            <div class="col">
+                                                <h2>{{ lang['smmspot.neworder.status.title'] }}  </h2>
+                                                {% if user['spent'] >= 100000 %}
+                                                <h3>{{ lang['smmspot.neworder.status.1'] }}</h3>
+                                                {% elseif user['spent'] >= 8000 %}
+                                                <h3>{{ lang['smmspot.neworder.status.2'] }}</h3>
+                                                {% elseif user['spent'] >= 4000 %}
+                                                <h3>{{ lang['smmspot.neworder.status.3'] }} </h3>
+                                                {% else %}
+                                                <h3>{{ lang['smmspot.neworder.status.4'] }}   </h3>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-lg-6">
+                    <div class="card mb-5">
+                        <div class="py-4 px-lg-3 px-4">
+
+                            <div class="t-head th-3">
+                                <div class="row align-items-center">
+                                    <div class="col-md-auto">
+                                        <div class="t-icon">
+                                            <i class="fal fa-hand-holding-box"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md col-12">
+                                        <h2>{{ lang['smmspot.neworder.place.a.new.order.title'] }}</h2>
+                                        <p>{{ lang['smmspot.neworder.place.a.new.order.text'] }}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <form action="/" method="post">
+                            {% if error %}
+                            <div class="alert alert-dismissible alert-danger">
+                                {{ errorText }}
+                            </div>
+                            {% endif %}
+
+                            {% if data["order"]["success"] == 1 %}
+                            <div class="alert alert-success alert-dismissible" role="alert">
+                                <h4>{{lang['neworder.message.success']}}</h4>
+                                {{lang['neworder.success.id']}}: {{ data['order']['id'] }}<br>
+                                {{lang['neworder.success.service']}}: {{ data['order']['service'] }}
+                                <br>
+                                {{lang['neworder.success.link']}}: {{ data['order']['link'] }}<br>
+                                {{lang['neworder.success.quantity']}}: {{ data['order']['quantity'] }}<br>
+                                {{lang['neworder.success.link']}}: {{ data['order']['price'] }}<br>
+                                {{lang['neworder.success.balance']}}: {{ data['order']['balance'] }}<br>
+                            </div>
+                            {%endif%}
+
+                            {% if data["order"]["success"] == 2 %}
+                            <div class="alert alert-success alert-dismissible" role="alert">
+                                <h4>{{lang['neworder.message.success']}}</h4>
+                                {{lang['neworder.success.id']}}: {{ data['order']['id'] }}<br>
+                                {{lang['neworder.success.service']}}: {{ data['order']['service'] }}
+                                <br>
+                                {{lang['neworder.success.username']}}: {{ data['order']['link'] }}<br>
+                                {{lang['neworder.success.quantity']}}:
+                                {% if data['order']['min'] == data['order']['max'] %}
+                                {{ data['order']['max'] }}
+                                {% else %}
+                                {{ data['order']['min'] }} - {{ data['order']['max'] }}
+                                {% endif %}
+                                <br>
+                                {{lang['neworder.success.posts']}}:
+                                {% if 0 == data['order']['posts'] %}
+                                ∞
+                                {% else %}
+                                {{ data['order']['posts'] }}
+                                {% endif %}
+                                <br>
+                                {{lang['neworder.success.delay']}}:
+                                {{ data['order']['delay'] }}
+                                <br>
+                            </div>
+                            {% endif %}
+
+                            {% if categories %}
+                            <div class="fga mb-4">
+                                <label class="fla" for="orderCategory">{{ lang["neworder.category"] }}</label>
+                                <div class="fg">
+                                    <div class="fg-icon"><i class="far fa-list"></i></div>
+                                    <select id="neworder_category" name="categories" class="fg-control" data-toggle="ssp-selectbox" data-class="fg-control">
+                                        {% for category in categories %}
+                                        <option {% if category["category_id"] == data["categories"] %} selected {% endif %} value="{{ category['category_id'] }}" >{{ category["category_name"] }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            {% endif %}
+
+                            <div class="fga mb-4">
+                                <label class="fla" for="orderService">{{ lang["neworder.service"] }}</label>
+                                <div class="fg">
+                                    <div class="fg-icon"><i class="far fa-box-open"></i></div>
+                                    <select name="services" id="neworder_services" class="fg-control" data-toggle="ssp-selectbox" data-class="fg-control">
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div id="neworder_fields"></div>
+
+                            {% if neworderTerms %}
+										  <div class="checkbox">
+											<label>
+											  <input type="checkbox" name="neworder_check">{{ lang['neworder.recheck'] }}
+											</label>
+										  </div>
+										{% endif %}
+
+                            <div class="row">
+                                <div class="col-md-6 col-12 mb-4 mb-mb-0">
+                                    <button type="submit" class="btn btn-primary btn-block">
+                                        {{ lang['smmspot.neworder.submit.button'] }}
+                                    </button>
+                                </div>
+                                <div class="col-md-6 col-12 mb-4 mb-mb-0 form-group">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="charge" value="" readonly style="padding: 19px 50px;border-radius:10px" placeholder="{{ lang['smmspot.neworder.price.text'] }}">
+                                    </div>
+                                </div>
+                            </div>
+                            </form>
+                        </div>
+                    </div><!-- card -->
+                </div><!-- col -->
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="py-4 px-lg-3 px-4">
+                            <div class="t-head th-3">
+                                <div class="row align-items-center">
+                                    <div class="col-md-auto">
+                                        <div class="t-icon">
+                                            <i class="fal fa-comment-alt-medical"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md col-12">
+                                        <h2>{{ lang['smmspot.neworder.service.description.title'] }} </h2>
+                                        <p><span id="s_name"></span></p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="dp-service-text">
+                                <span id="description_new"></span>
+                            </div>
+                            <div class="card mt-4">
+                                <div class="cb-content">
+                                    <div class="card-body">
+                                        <div class="row text-center align-items-center">
+                                            <div class="col">
+                                                <div class="text-muted">
+                                                    {{ lang['smmspot.neworder.terms.of.use.information.text1'] }} <a href="/terms">{{ lang['smmspot.neworder.terms.of.use.information.text2'] }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% include 'footer.twig' %}
+
+<script>
+    /*
+    $(document).on('change','#neworder_category',function(){
+
+           $('#neworder_fields').hide();
+
+           while (1){
+               if($('#description')){
+                   $('#description').attr('style','display:none');
+                   $('#neworder_fields').show();
+                   $('#description_new').html($('#service_description').html());
+                   console.log('x');
+                   break;
+               }else{
+                   console.log('y');
+                   continue;
+               }
+           }
+
+            document.getElementById('description').addEventListener()
+
+        })
+        */
+
+    $(document).on('DOMSubtreeModified','#neworder_fields',function(){
+        $('#description').hide();
+        $('#description_new').html($('#service_description').html());
+    })
+  /*  $(document).on('DOMSubtreeModified','#order_link',function(){
+        console.log('x');
+       // $('#order_link').hide();
+        //$('#order_link').html('<div class="fg"><div class="fg-icon"><i class="far fa-link"></i></div><input class="fg-control" name="OrderForm[link]" value="" type="text" id="field-orderform-fields-link"></div></div></div>');
+    }) */
+    
+
+    $(document).on('DOMSubtreeModified','#neworder_services',function(){
+        $('#s_name').html($('#neworder_services').find(":selected").html());
+    })
+
+</script>
+<script>
+    function updateDetail(e) {
+        var r = $("#neworder_services").find(":selected").attr("data-array"),
+            n = serviceArray.services[r].type,
+            a = serviceArray.services[r].max,
+            i = serviceArray.services[r].min,
+            t = serviceArray.services[r].link_type,
+            l = serviceArray.services[r].dripfeed;
+        t = 1 == t ? "link_url" : "link_username";
+        updateDescription(e);
+        updateDescription2(e),
+            1 == n
+                ? ($("#order_link > label").text(generalList.label_list[t]),
+                    $("#order_link").removeClass("hidden"),
+                    $("#order_quantity").removeClass("hidden"),
+                    $(".min-max")
+                        .removeClass("hidden")
+                        .text("Min: " + i + " Max:" + a),
+                    $("#neworder_quantity").attr("disabled", !1))
+                : 2 == n
+                ? ($("#order_link > label").text(generalList.label_list[t]), $("#order_link").removeClass("hidden"))
+                : 3 == n
+                    ? ($("#order_link > label").text(generalList.label_list[t]),
+                        $("#order_link").removeClass("hidden"),
+                        $("#order_quantity").removeClass("hidden"),
+                        $("#order_comment").removeClass("hidden"),
+                        $("#neworder_quantity").attr("disabled", !0))
+                    : 4 == n
+                        ? ($("#order_link > label").text(generalList.label_list[t]), $("#order_link").removeClass("hidden"), $("#order_comment").removeClass("hidden"))
+                        : 5 == n
+                            ? ($("#order_link > label").text(generalList.label_list[t]),
+                                $("#order_link").removeClass("hidden"),
+                                $("#order_username").removeClass("hidden"),
+                                $("#order_quantity").removeClass("hidden"),
+                                $("#neworder_quantity").attr("disabled", !1))
+                            : 11 == n || 12 == n
+                                ? ($("#order_username").removeClass("hidden"),
+                                    $("#order_auto").removeClass("hidden"),
+                                    $("#order_min > .min-max")
+                                        .removeClass("hidden")
+                                        .text("Min: " + i + " Max:" + a))
+                                : (14 != n && 15 != n) || $("#order_username").removeClass("hidden"),
+        l && $("#dripfeed").removeClass("hidden"),
+            $(".datetime")
+                .datepicker({ format: "dd/mm/yyyy", language: "tr", startDate: new Date() })
+                .on("change", function (e) {
+                    $(".datetime").datepicker("hide");
+                }),
+            $("#clearExpiry").click(function () {
+                $("#expiryDate").val("");
+            }),
+        getSession("link") && $("#field-orderform-fields-link").val(getSession("link")),
+        getSession("quantity") && $("#neworder_quantity").val(getSession("quantity")),
+        getSession("username") && $('[name="username"]').val(getSession("username")),
+        getSession("posts") && $("#field-orderform-fields-posts").val(getSession("posts")),
+        getSession("expiry") && $("#expiryDate").val(getSession("expiry")),
+        getSession("min") && $('[name="min"]').val(getSession("min")),
+        getSession("max") && $('[name="max"]').val(getSession("max")),
+        getSession("delay") && $('[name="delay"]').val(getSession("delay")),
+        getSession("comments") && $("#neworder_comment").val(getSession("comments").replace(new RegExp("<br>", "g"), "\r\n")),
+            updateRate(e);
+    }
+</script>

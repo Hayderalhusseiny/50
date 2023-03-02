@@ -1,0 +1,76 @@
+{% include 'header.twig' %}
+{% if user['auth'] %}
+{% else %}
+<style>.app-main{padding-top: 125px}</style>
+{% endif %}
+<main class="app-main">
+    <div class="page-content">
+      {% if user['auth'] %}
+        <div class="container-fluid">
+      {% else %}
+         <div class="container">
+      {% endif %}
+		
+			<div class="hp-bbox mt-5 mb-5">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="hpbb-body">
+                            <h2 class="hp-title">{{ lang['smmspot.terms.title'] }}</h2>
+                            <p class="hpbb-text">
+								{{ lang['smmspot.terms.text'] }}  
+							</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+             <ul class="nav nav-pills nav-custom mb-3" id="pills-tab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">
+                        {{ lang['smmspot.terms.tab1.button'] }}
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">
+                        {{ lang['smmspot.terms.tab2.button'] }}
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">
+                        {{ lang['smmspot.terms.tab3.button'] }} 
+                    </button>
+                </li>
+            </ul>
+            <div class="tab-content" id="pills-tabContent">
+                <div class="tab-pane fade active show" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                    <div class="card">
+                        <div class="card-body">
+                            {{ lang['smmspot.terms.tab1.text'] }} 
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3>{{ lang['smmspot.terms.tab2.text'] }}</h3>
+                        </div>
+                    </div>
+				</div>
+                <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3>{{ lang['smmspot.terms.tab3.text'] }} </h3>
+                        </div>
+                    </div>
+				</div>
+            </div>
+  
+
+
+        </div>
+    </div>
+</main>
+{% include 'footer.twig' %}
+ 

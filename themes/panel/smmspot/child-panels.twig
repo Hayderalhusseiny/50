@@ -1,0 +1,202 @@
+{% include 'header.twig' %}
+
+
+
+<main class="app-main">
+    <div class="page-content">
+        <div class="container-fluid">
+		
+			<div class="hp-bbox mt-5 mb-5">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="hpbb-body">
+                            <h2 class="hp-title">{{ lang['smmspot.child.title'] }}</h2>
+                            <p class="hpbb-text">
+								{{ lang['smmspot.child.text'] }}
+							</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+                <div class="card">
+                    <div class="card-afip-body">
+                        <div class="row align-items-center">
+                            <div class="col-lg-auto col-md-12">
+                                <div class="px-4">
+                                    <div class="afip-username">
+                                        <span>{{ lang['smmspot.child.ns.title'] }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg col-md-6">
+                                <div class="afip-box" onclick="copyToClipboard('ns1.scaru.co')">
+                                    <button class="btn btn-primary afip-btn">
+                                        <i class="far fa-copy"></i>
+                                    </button>
+                                    <div class="afip-left">
+                                        <div class="afip-title">{{ lang['smmspot.child.ns1.title'] }}</div>
+                                        <div class="afip-text">{{ lang['smmspot.child.ns1'] }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg col-md-6">
+                                <div class="afip-box" onclick="copyToClipboard('ns2.scaru.co')">
+                                    <button class="btn btn-primary afip-btn">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                    <div class="afip-left">
+                                        <div class="afip-title">{{ lang['smmspot.child.ns2.title'] }}</div>
+                                        <div class="afip-text">{{ lang['smmspot.child.ns2'] }} </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!-- row -->
+                    </div><!-- ./card-afip-body -->
+                    <div class="card-afip-body">
+                    <form action="child-panels" method="post">
+                                        {% if errorText %}
+										<div class="alert alert-dismissible alert-danger">
+										  <button type="button" class="close" data-dismiss="alert">×</button>
+										  {{ errorText }}
+										</div>
+									  {% endif %}
+									  {% if successText %}
+										<div class="alert alert-dismissible alert-success">
+										  <button type="button" class="close" data-dismiss="alert">×</button>
+										  {{ successText }}
+										</div>
+									  {% endif %}
+                           <div class="row mt-4">
+                                <div class="col-lg-6">
+                                    <div class="fga mb-4">
+                                        <label class="fla" for="domain">{{ lang["childpanels.panel.domain"] }}</label>
+                                        <div class="fg">
+                                            <input type="text" id="domain" name="domain" class="fg-control">
+                                        </div>
+                                    </div><!-- ./fga -->
+                                </div><!-- ./col -->
+                                <div class="col-lg-6">
+                                    <div class="fga mb-4">
+                                        <label class="fla" for="currency">{{ lang["childpanels.panel.currency"] }}</label>
+                                        <div class="fg">
+                                            <select id="createorderform-currency" name="panel_currency" aria-required="true" class="form-control fg-control">
+                                                <option value="USD">United States Dollars (USD)</option>
+                                                <option value="TRY">Türk Lirası (TRY)</option>
+                                                <option value="EUR">Euro (EUR)</option>								
+											</select>
+                                        </div>
+                                    </div><!-- ./fga -->
+                                </div><!-- ./col -->
+                                
+                            </div><!-- row -->
+                            <div class="row mt-4">
+                                <div class="col-lg-6">
+                                    <div class="fga mb-4">
+                                        <label class="fla" for="admUsername">{{ lang["childpanels.admin.username"] }}</label>
+                                        <div class="fg">
+                                            <input type="text"   aria-required="true" value="" class="fg-control">
+                                        </div>
+                                    </div><!-- ./fga -->
+                                </div><!-- ./col -->
+                                <div class="col-lg-6">
+                                    <div class="fga mb-4">
+                                        <label class="fla" for="adminPass">{{ lang["childpanels.admin.password"] }}</label>
+                                        <div class="fg">
+                                            <input type="text" aria-required="true" value="" class="fg-control">
+                                        </div>
+                                    </div><!-- ./fga -->
+                                </div><!-- ./col -->
+                            </div><!-- row -->
+
+                            <div class="row mt-3">
+                                <div class="col-lg-6 mb-4 mb-lg-0">
+                                    <a class="btn btn-dark btn-block" id="price">{{ lang["childpanels.panel.amount"] }}: {{ settings['panel_price'] }}{{ site['currency'] }} </a>
+                                </div>
+                                <div class="col-lg-6 mb-4 mb-lg-0">
+                                    <button type="submit" class="btn btn-primary btn-block">{{ lang['smmspot.child.submit.button.text'] }}</button>
+                                </div>
+                            </div>
+                            
+                        </form>
+                    </div><!-- ./card-afip-body(2nd) -->
+                </div><!-- card -->
+                
+                {% if ticketList %}
+                <div class="card mt-4">
+                    <div class="col-lg-12">
+                    <div class="card">
+                        <div class="py-4 px-lg-3 px-4">
+						
+									<div class="t-head th-3">
+										<div class="d-flex align-items-center">
+											<div class="col-lg-2">
+												<div class="t-icon">
+													<i class="fal fa-receipt"></i>
+												</div>
+											</div>
+											<div class="col-lg-10 col-12">
+												<h2>{{ lang['smmspot.child.dealer.panel.title'] }} </h2>
+												<p>{{ lang['smmspot.child.dealer.panel.text'] }} </p>
+											</div>
+										</div>
+									</div>
+
+                                    {% for panel in ticketList %}
+                                    <div class="old-payments">
+																				<div class="card mb-3">
+											<div class="py-4 px-lg-3 px-4">
+												<div class="row">
+													<div class="col-lg-2 col-6">
+														<h4 class="op-title">{{ lang["childpanels.domain"] }}</h4>
+														<div class="/*op-id*/op-status">{{ panel['panel_domain'] }}</div>
+													</div>
+													<div class="col-lg-2 col-6">
+														<h4 class="op-title">
+															<span>{{ lang['smmspot.child.admin.information.title'] }}</span>
+														</h4>
+														<div class="op-date">{{ lang['smmspot.child.admin.username'] }} <br> {{ lang['smmspot.child.admin.password'] }}</div>
+													</div>
+													<div class="col-lg-2 col-6">
+														<h4 class="op-title">
+															<span>{{ lang["childpanels.currency"] }}</span>
+														</h4>
+														<div class="op-date">{{ panel['panel_currency'] }}</div>
+													</div>
+													<div class="col-lg-2 col-6">
+														<h4 class="op-title">
+															<span>{{ lang["childpanels.price"] }}</span>
+														</h4>
+														<div class="op-date">{{ panel['panel_price'] }}</div>
+													</div>
+                                                    <div class="col-lg-2 col-6">
+														<h4 class="op-title">
+															<span>{{ lang["childpanels.created"] }}</span>
+														</h4>
+														<div class="op-date">{{ panel['panel_created'] }}</div>
+													</div>
+													<div class="col-lg-2 col-12">
+													    <h4 class="op-title">
+															<span></span>
+														</h4>
+														<div class="op-status">
+															<a href="//{{ panel['panel_domain'] }}/admin" data-toggle="tooltip" target="_blank" data-placement="left" data-bs-original-title="" title="" style="color:#fff;">{{ lang['smmspot.child.go.admin'] }}</a>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+                                {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                </div><!-- card -->
+
+{% endif %} 
+
+        </div>
+    </div>
+</main>
+
+{% include 'footer.twig' %}								

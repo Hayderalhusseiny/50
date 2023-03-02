@@ -1,0 +1,118 @@
+{% include 'header.twig' %}
+<main class="app-main">
+    <div class="page-content">
+        <div class="container-fluid">
+		
+			<div class="hp-bbox mt-5 mb-5">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="hpbb-body">
+                            <h2 class="hp-title">{{ lang['smmspot.affiliates.title'] }}</h2>
+                            <p class="hpbb-text">
+								{{ lang['smmspot.affiliates.text'] }}    
+							</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+			<div class="card">
+                <div class="card-afip-body">
+                    <div class="row align-items-center">
+                        <div class="col-lg-auto col-md-12">
+                            <div class="px-4">
+                                <div class="afip-username-t">{{ lang['smmspot.affiliates.username'] }}   </div>
+                                <div class="afip-username">
+                                    <span>{{user['username']}}</span>
+                                    <i class="far fa-badge-check"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg col-md-12">
+                            <div class="afip-box">
+                                <button class="btn btn-primary afip-btn" onclick="copyToClipboard('{{ site['url'] }}/ref/{{ user["referral_code"] }}')">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                                <div class="afip-left">
+                                    <div class="afip-title">{{ lang['smmspot.affiliates.ref.url.title'] }}</div>
+                                    <div class="afip-text">{{ site['url'] }}/ref/{{ user["referral_code"] }}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-auto col-md-6">
+                            <div class="afip-box">
+                                <button class="btn btn-primary afip-btn">
+                                    <i class="far fa-badge-percent"></i>
+                                </button>
+                                <div class="afip-left">
+                                    <div class="afip-title">{{ lang['smmspot.affiliates.commission.title'] }}</div>
+                                    <div class="afip-text">{{ settings["ref_bonus"] }}%</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-auto col-md-6">
+                            <div class="afip-box">
+                                <button class="btn btn-primary afip-btn">
+                                    <i class="fas fa-money-bill-wave"></i>
+                                </button>
+                                <div class="afip-left">
+                                    <div class="afip-title">{{ lang['smmspot.affiliates.payment.threshold'] }}</div>
+                                    <div class="afip-text">{{ settings['ref_max'] }}{{ site['currency'] }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!-- row -->
+                </div><!-- ./card-afip-body -->
+                <div class="card-afip-body">
+                    <div class="row row-cols-lg-8 row-cols-md-3 row-cols-2 mt-4">
+                        <div class="col">
+                            <div class="card afip-card">
+                                <div class="card-body">
+                                    <div class="c-title">{{ lang['affiliates.click'] }}</div>
+                                    <div class="c-num">{{ user['total_click'] }}</div>
+                                </div>
+                            </div>
+                        </div><!-- col -->
+                        <div class="col">
+                            <div class="card afip-card">
+                                <div class="card-body">
+                                    <div class="c-title">{{ lang['affiliates.total.user'] }}</div>
+                                    <div class="c-num">{{ refCount }}</div>
+                                </div>
+                            </div>
+                        </div><!-- col -->
+                        <div class="col">
+                            <div class="card afip-card">
+                                <div class="card-body">
+                                    <div class="c-title">{{ lang['affiliates.total.payment'] }}</div>
+                                    <div class="c-num">{{ user['reforder'] }}{{ site['currency'] }}</div>
+                                </div>
+                            </div>
+                        </div><!-- col -->
+                        <div class="col">
+                            <div class="card afip-card">
+                                <div class="card-body">
+                                    <div class="c-title">{{ lang['affiliates.total.win'] }}</div>
+                                    <div class="c-num">{{ user['refchar'] }}{{ site['currency'] }}</div>
+                                </div>
+                            </div>
+                        </div><!-- col -->
+												
+                    </div><!-- row -->
+					{% if settings['ref_max'] == user['refchar'] %}
+					<div class="row">
+						<div class="col-lg-12">
+							<a href="{{ site['url'] }}/tickets" class="btn btn-primary btn-block">{{ lang['smmspot.affiliates.request.payment.button'] }}</a>
+						</div>
+					</div>
+					{% endif %}
+
+               </div><!-- ./card-afip-body(2nd) -->
+            </div>
+
+        </div>
+    </div>
+</main>
+
+
+{% include 'footer.twig' %}
